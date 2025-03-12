@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   OnInit,
   ViewChild,
@@ -20,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { PushPipe } from '@ngrx/component';
