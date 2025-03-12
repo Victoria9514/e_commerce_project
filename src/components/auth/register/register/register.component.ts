@@ -20,19 +20,18 @@ import { selectLoading } from '../../../../store/selectors';
 import { AuthActions } from '../../store/auth.actions';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    ButtonComponent,
-    PushPipe,
-    SpinnerComponent,
-  ],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
+    selector: 'app-register',
+    imports: [
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        ButtonComponent,
+        PushPipe,
+        SpinnerComponent,
+    ],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
   store = inject(Store);

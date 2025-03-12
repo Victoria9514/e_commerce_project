@@ -23,27 +23,26 @@ import { DataTableTypes } from '../data-table-list/data-table-list.component';
 import { TableDataActions } from '../data-table-list/enums';
 import { AdminActions } from '../store/admin.actions';
 @Component({
-  selector: 'app-data-table',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatPaginatorModule,
-    MatInputModule,
-    MatTableModule,
-    ButtonComponent,
-    MatTabsModule,
-    TitleCasePipe,
-    FormsModule,
-    PushPipe,
-    MatSortModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-  ],
-  providers: [MatDatepickerModule],
-  templateUrl: './table-data.html',
-  styleUrl: './table-data.scss',
+    selector: 'app-data-table',
+    imports: [
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatPaginatorModule,
+        MatInputModule,
+        MatTableModule,
+        ButtonComponent,
+        MatTabsModule,
+        TitleCasePipe,
+        FormsModule,
+        PushPipe,
+        MatSortModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+    ],
+    providers: [MatDatepickerModule],
+    templateUrl: './table-data.html',
+    styleUrl: './table-data.scss'
 })
 export class DataTableComponent {
   store = inject(Store);

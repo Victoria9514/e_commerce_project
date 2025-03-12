@@ -9,18 +9,17 @@ import { loadingSpinner } from '../../../store/actions';
 import { selectLoading } from '../../../store/selectors';
 import { AuthActions } from '../store/auth.actions';
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatInputModule,
-    PushPipe,
-    SpinnerComponent,
-    InputFieldComponent,
-    MatInputModule
-],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+    selector: 'app-login',
+    imports: [
+        FormsModule,
+        MatInputModule,
+        PushPipe,
+        SpinnerComponent,
+        InputFieldComponent,
+        MatInputModule
+    ],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   router = inject(Store);

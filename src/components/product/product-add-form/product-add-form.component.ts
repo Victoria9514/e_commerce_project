@@ -42,28 +42,27 @@ import { Utils } from '../../../utils';
 import { ProductsActions } from '../store/product.actions';
 
 @Component({
-  selector: 'app-product-add-form',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatIconModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatListModule,
-    TitleCasePipe,
-    UploadFileComponent,
-    PushPipe,
-    NgTemplateOutlet,
-    MatButtonModule,
-  ],
-  templateUrl: './product-add-form.component.html',
-  styleUrl: './product-add-form.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-product-add-form',
+    imports: [
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatIconModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatListModule,
+        TitleCasePipe,
+        UploadFileComponent,
+        PushPipe,
+        NgTemplateOutlet,
+        MatButtonModule,
+    ],
+    templateUrl: './product-add-form.component.html',
+    styleUrl: './product-add-form.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductAddFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);

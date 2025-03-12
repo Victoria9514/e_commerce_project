@@ -29,27 +29,26 @@ import { NavLinks, NavigationService } from '../../services/navigation.service';
 import { loadingSpinner } from '../../store/actions';
 
 @Component({
-  selector: 'app-topbar',
-  standalone: true,
-  imports: [
-    MatToolbarModule,
-    RouterModule,
-    MatIcon,
-    PushPipe,
-    MatButtonModule,
-    MatListModule,
-    MatToolbarModule,
-    ButtonComponent,
-    MatBadgeModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    AvatarDirective,
-    UploadFileComponent,
-  ],
-  templateUrl: './topbar.component.html',
-  styleUrl: './topbar.component.scss',
+    selector: 'app-topbar',
+    imports: [
+        MatToolbarModule,
+        RouterModule,
+        MatIcon,
+        PushPipe,
+        MatButtonModule,
+        MatListModule,
+        MatToolbarModule,
+        ButtonComponent,
+        MatBadgeModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        AvatarDirective,
+        UploadFileComponent,
+    ],
+    templateUrl: './topbar.component.html',
+    styleUrl: './topbar.component.scss'
 })
 export class TopbarComponent implements OnInit {
   store = inject(Store);

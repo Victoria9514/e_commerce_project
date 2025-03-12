@@ -8,19 +8,18 @@ import { FooterComponent } from "../layout/footer/footer.component";
 import { TopbarComponent } from '../layout/topbar/topbar.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    MatSidenavModule,
-    MatToolbarModule,
-    TopbarComponent,
-    SidebarComponent,
-    FooterComponent
-],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-root',
+    imports: [
+        RouterOutlet,
+        MatSidenavModule,
+        MatToolbarModule,
+        TopbarComponent,
+        SidebarComponent,
+        FooterComponent
+    ],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
   protected readonly isMobile = signal(true);

@@ -6,11 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { IProduct } from '../../../models/product.model';
 
 @Component({
-  selector: 'app-cart-item',
-  standalone: true,
-  imports: [MatButtonModule, MatIconModule,MatDividerModule,NgOptimizedImage],
-  templateUrl: './cart-item.component.html',
-  styleUrl: './cart-item.component.scss',
+    selector: 'app-cart-item',
+    imports: [MatButtonModule, MatIconModule, MatDividerModule, NgOptimizedImage],
+    templateUrl: './cart-item.component.html',
+    styleUrl: './cart-item.component.scss'
 })
 export class CartitemComponent {
   item = input.required<IProduct>();

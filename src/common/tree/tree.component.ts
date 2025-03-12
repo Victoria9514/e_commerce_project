@@ -28,11 +28,10 @@ const TREE_DATA: ProductsAsNode[] = [
   },
 ];
 @Component({
-  selector: 'app-tree',
-  standalone: true,
-  imports: [MatTreeModule,MatIconModule,MatButtonModule],
-  templateUrl: './tree.component.html',
-  styleUrl: './tree.component.scss'
+    selector: 'app-tree',
+    imports: [MatTreeModule, MatIconModule, MatButtonModule],
+    templateUrl: './tree.component.html',
+    styleUrl: './tree.component.scss'
 })
 export class TreeComponent {
 

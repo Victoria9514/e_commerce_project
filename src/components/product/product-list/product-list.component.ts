@@ -20,14 +20,13 @@ import { ProductsActions } from '../store/product.actions';
 import { selectProducts } from '../store/product.selector';
 
 @Component({
-  selector: 'app-product-list',
-  standalone: true,
-  imports: [PushPipe, ProductItemComponent, ScrollingModule],
-  templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.scss',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'product-list' },
+    selector: 'app-product-list',
+    imports: [PushPipe, ProductItemComponent, ScrollingModule],
+    templateUrl: './product-list.component.html',
+    styleUrl: './product-list.component.scss',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'product-list' }
 })
 export class ProductListComponent implements OnInit {
   private readonly store = inject(Store<AppState>);

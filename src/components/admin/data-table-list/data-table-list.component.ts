@@ -30,19 +30,18 @@ import { DataSourceOption } from './enums';
 export type DataTableTypes = IProduct | UserTableModel;
 
 @Component({
-  selector: 'app-data-table-list',
-  standalone: true,
-  imports: [
-    DataTableComponent,
-    PushPipe,
-    MatSelectModule,
-    MatFormFieldModule,
-    FormsModule,
-    SpinnerComponent,
-    RouterModule,
-  ],
-  templateUrl: './data-table-list.component.html',
-  styleUrl: './data-table-list.component.scss',
+    selector: 'app-data-table-list',
+    imports: [
+        DataTableComponent,
+        PushPipe,
+        MatSelectModule,
+        MatFormFieldModule,
+        FormsModule,
+        SpinnerComponent,
+        RouterModule,
+    ],
+    templateUrl: './data-table-list.component.html',
+    styleUrl: './data-table-list.component.scss'
 })
 export class DataTableListComponent implements OnInit {
   store = inject(Store);

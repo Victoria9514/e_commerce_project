@@ -10,13 +10,12 @@ export interface Tile {
 }
 
 @Component({
-  selector: 'app-footer',
-  standalone: true,
-  imports: [MatGridListModule],
-  templateUrl: './footer.component.html',
-  styleUrl: './footer.component.scss',
-  encapsulation: ViewEncapsulation.None,
-  host: {class: 'footer'}
+    selector: 'app-footer',
+    imports: [MatGridListModule],
+    templateUrl: './footer.component.html',
+    styleUrl: './footer.component.scss',
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'footer' }
 })
 export class FooterComponent {
   data: Tile[] = [

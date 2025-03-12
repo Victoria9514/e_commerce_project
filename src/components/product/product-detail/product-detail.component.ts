@@ -10,18 +10,17 @@ import { CartActions } from '../../cart/store/actions';
 import { ProductsActions } from '../store/product.actions';
 import { selectCurrentProduct } from '../store/product.selector';
 @Component({
-  selector: 'app-product-detail',
-  standalone: true,
-  imports: [
-    RouterModule,
-    PushPipe,
-    NgOptimizedImage,
-    ButtonComponent,
-    MatIconModule,
-  ],
-  templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.scss',
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-product-detail',
+    imports: [
+        RouterModule,
+        PushPipe,
+        NgOptimizedImage,
+        ButtonComponent,
+        MatIconModule,
+    ],
+    templateUrl: './product-detail.component.html',
+    styleUrl: './product-detail.component.scss',
+    encapsulation: ViewEncapsulation.None
 })
 export class ProductdetailComponent implements OnInit {
   private route = inject(ActivatedRoute);

@@ -9,11 +9,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-input-field',
-  standalone: true,
-  imports: [MatButtonModule,MatIconModule],
-  templateUrl: './input-field.component.html',
-  styleUrl: './input-field.component.scss',
+    selector: 'app-input-field',
+    imports: [MatButtonModule, MatIconModule],
+    templateUrl: './input-field.component.html',
+    styleUrl: './input-field.component.scss'
 })
 export class InputFieldComponent {
   readonly value = model<string>('');

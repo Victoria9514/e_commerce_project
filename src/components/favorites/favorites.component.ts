@@ -4,11 +4,10 @@ import { Store } from '@ngrx/store';
 import { selectWishlistItems } from '../product/store/product.selector';
 
 @Component({
-  selector: 'app-favorites',
-  standalone: true,
-  imports: [PushPipe],
-  templateUrl: './favorites.component.html',
-  styleUrl: './favorites.component.scss',
+    selector: 'app-favorites',
+    imports: [PushPipe],
+    templateUrl: './favorites.component.html',
+    styleUrl: './favorites.component.scss'
 })
 export class FavoritesComponent {
   store = inject(Store);

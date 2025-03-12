@@ -13,12 +13,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 
 @Component({
-  selector: 'upload-file',
-  templateUrl: './upload-file.component.html',
-  standalone: true,
-  imports: [MatIconModule],
-  styleUrls: ['./upload-file.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'upload-file',
+    templateUrl: './upload-file.component.html',
+    imports: [MatIconModule],
+    styleUrls: ['./upload-file.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class UploadFileComponent {
   selectedFile!: FileList | null;
