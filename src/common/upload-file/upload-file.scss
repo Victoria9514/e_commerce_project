@@ -1,0 +1,9 @@
+.avatar-container{
+  display: flex;
+  position: relative;
+  &-edit--icon{
+    position: absolute;
+    right: 0;
+    top: -.5rem;
+  }
+}

@@ -1,0 +1,12 @@
+<div class="avatar-container">
+  <input
+    type="file"
+    (change)="onFileSelected($event)"
+    #fileUploader
+    [hidden]="hidden()"
+    [multiple]="isMultiple()"
+  />
+  @if(showIcon()) {
+  <mat-icon class="avatar-container-edit--icon" fontIcon="edit"></mat-icon>
+  }
+</div>

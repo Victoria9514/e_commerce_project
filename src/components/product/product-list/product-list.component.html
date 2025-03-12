@@ -1,0 +1,10 @@
+<cdk-virtual-scroll-viewport
+  [itemSize]="100"
+  style="height: 70vh"
+>
+  <app-product-item
+    *cdkVirtualFor="let item of products$ | ngrxPush; trackBy: idTrackFn"
+    [product]="item"
+    [itemHeight]="itemHeight"
+  ></app-product-item>
+</cdk-virtual-scroll-viewport>

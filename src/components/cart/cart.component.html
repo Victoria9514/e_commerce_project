@@ -1,0 +1,11 @@
+@if((selectCartItems$ | ngrxPush)?.length) { @for(item of selectCartItems$ | ngrxPush; track item.product_id) {
+<app-cart-item [item]="item"></app-cart-item>
+}
+
+<div class="checkout-container">
+  <span> total: {{ selectCartTotal$ | ngrxPush }}</span>
+  <button mat-button (click)="checkout()">checkout</button>
+</div>
+} @else{
+<h1>No selected items in your CART</h1>
+}

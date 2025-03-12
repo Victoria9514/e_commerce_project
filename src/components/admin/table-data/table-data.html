@@ -1,0 +1,75 @@
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput placeholder="search" (keyup)="applyFilter($event)" #input />
+</mat-form-field>
+
+@if(dataSource) {
+<table mat-table [dataSource]="(dataSource | ngrxPush) || []" matSort>
+  @for(prop of (alldisplayedColumns$ | ngrxPush); track prop) {
+  <ng-container [matColumnDef]="prop">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      {{prop | titlecase}}
+    </th>
+
+    <td mat-cell *matCellDef="let element">
+      @if(prop !== TableDataActions.DELETE && prop !== TableDataActions.EDIT &&
+      prop !== 'createdAt' ) {
+      <!-- (focus)="onFocus($event)" -->
+      <input
+        (blur)="editMode = false"
+        matInput
+        [value]="element[prop]"
+        [(ngModel)]="element[prop]"
+      />
+      }@if(prop === 'createdAt'){
+      <mat-form-field>
+        <mat-label>Change a date</mat-label>
+        <input matInput [matDatepicker]="picker" [value]="element[prop]" />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      }@if(prop === TableDataActions.EDIT){ @if(!editMode) {
+      <app-button
+        [label]="'edit'"
+        [icon]="'edit'"
+        (clicked)="editItem()"
+      ></app-button>
+      } @else {
+      <app-button
+        [label]="'done'"
+        [icon]="'done'"
+        (click)="update(element)"
+      ></app-button>
+
+      } }@if(prop === TableDataActions.DELETE) {
+      <app-button
+        [label]="'delete'"
+        [icon]="'delete'"
+        (clicked)="deleteItem(element)"
+      ></app-button>
+      }
+    </td>
+  </ng-container>
+  }
+
+  <tr mat-header-row *matHeaderRowDef="alldisplayedColumns$ | ngrxPush"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: alldisplayedColumns$ | ngrxPush"
+  ></tr>
+
+  <tr *matNoDataRow>
+    <td colspan="4">No data matching the filter "{{ input }}"</td>
+  </tr>
+</table>
+<mat-paginator
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  aria-label="Select page"
+></mat-paginator>
+}@else {
+<h1>no data</h1>
+}

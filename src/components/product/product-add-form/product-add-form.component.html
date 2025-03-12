@@ -1,0 +1,157 @@
+<button
+  mat-button
+  (click)="toggleBtns.toggleCategory = !toggleBtns.toggleCategory"
+>
+  add category
+  <mat-icon>add</mat-icon>
+</button>
+
+@if(toggleBtns.toggleCategory) {
+<ng-container>
+  <ng-container *ngTemplateOutlet="categories"></ng-container>
+</ng-container>
+} @if(toggleBtns.toggleSubCategory) {
+<ng-container>
+  <ng-container *ngTemplateOutlet="subCategory"></ng-container>
+</ng-container>
+}
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input matInput formControlName="title" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>description</mat-label>
+    <textarea matInput formControlName="desc"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>quantity</mat-label>
+    <input matInput type="number" formControlName="quantity" min="1" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>price</mat-label>
+    <input matInput type="number" formControlName="price" min="1" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Select a category</mat-label>
+    <mat-select formControlName="category" (selectionChange)="valueChanged($event)">
+      @for (category of selectCategories$ | ngrxPush ; track category; ) {
+
+      <mat-option [value]="category.id">{{
+        category.name | titlecase
+      }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Select a sub category</mat-label>
+    <mat-select formControlName="sub_category">
+      @for (sub_category of selectSubCategories$ | ngrxPush; track
+      sub_category;) {
+
+      <mat-option [value]="sub_category.name">{{
+        sub_category.name | titlecase
+      }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Select a color</mat-label>
+    <mat-select formControlName="color">
+      @for (color of productColors; track color) {
+      <mat-option [value]="color">{{ color }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>size</mat-label>
+    <mat-select formControlName="size" multiple>
+      <!-- @for (size of selectedSize(); track size) {
+      <mat-option [value]="size">{{ size }}</mat-option>
+      } -->
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Select a gender</mat-label>
+    <mat-select formControlName="gender">
+      @for (gender of genders; track gender) {
+      <mat-option [value]="gender">{{ gender }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <upload-file
+    [isMultiple]="true"
+    (fileSubmitted)="submit($event)"
+    [showIcon]="false"
+  ></upload-file>
+
+  <button type="submit" [disabled]="productForm.invalid">Save</button>
+  <button (click)="productForm.reset()">Cancel</button>
+</form>
+
+<ng-template #categories
+  ><form [formGroup]="categoryForm">
+    <mat-form-field>
+      <mat-label>Category name</mat-label>
+      <input matInput placeholder="name..." formControlName="name" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>description</mat-label>
+      <textarea
+        matInput
+        placeholder="description..."
+        formControlName="desc"
+      ></textarea>
+    </mat-form-field>
+  </form>
+  <button type="submit" mat-button (click)="addCategory(categoryForm.value)">
+    save
+  </button>
+  <button type="submit" mat-button (click)="categoryForm.reset()">
+    cancel
+  </button>
+  <button
+    mat-button
+    (click)="toggleBtns.toggleSubCategory = !toggleBtns.toggleSubCategory"
+  >
+    add sub-category
+    <mat-icon>add</mat-icon>
+  </button></ng-template
+>
+
+<ng-template #subCategory>
+  <form [formGroup]="subCategoryForm">
+    <mat-form-field>
+      <mat-label>Sub-category name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>description</mat-label>
+      <textarea
+        matInput
+        placeholder="description..."
+        formControlName="desc"
+      ></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Select a category</mat-label>
+      <mat-select formControlName="categoryName">
+        @for (category of selectCategories$ | ngrxPush ; track category; ) {
+
+        <mat-option [value]="category.name">{{
+          category.name | titlecase
+        }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </form>
+  <button type="submit" mat-button (click)="addSubCategory(subCategoryForm.value)">
+    save
+  </button>
+  <button type="submit" mat-button (click)="categoryForm.reset()">
+    cancel
+  </button>
+</ng-template>

@@ -1,0 +1,21 @@
+<div class="conainer">
+  <p>{{ item().title }}</p>
+  @let first = item().images_path?.split(",")?.slice(0,1); @if(first) {
+  <img
+    [ngSrc]="'http://localhost:3300/' + first"
+    alt="image"
+    [width]="50"
+    [height]="80"
+  />
+  }
+  <div class="container-actions">
+    <button mat-button>Edit<mat-icon>edit</mat-icon></button>
+    <button mat-button>
+      <mat-icon
+        [fontIcon]="item().favorite ? 'favorite' : 'favorite_outline'"
+      ></mat-icon>
+    </button>
+    <button mat-button>Delete <mat-icon>trash</mat-icon></button>
+  </div>
+  <mat-divider></mat-divider>
+</div>

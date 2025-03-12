@@ -1,0 +1,97 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    @let user_id = (user$ | ngrxPush)?.user_id; @let avatarUrl= (user$ |
+    ngrxPush)?.avatar;
+    <app-button [icon]="'menu'" (clicked)="toggleMenu.emit()" mat-mini-fab>
+    </app-button>
+    @for( link of navLinks() ;track link) {
+
+    <a
+      matTabLink
+      [routerLink]="['/products', link.label]"
+      routerLinkActive="active"
+    >
+      {{ link.label }}
+    </a>
+
+    } @let username = (user$ | ngrxPush)?.username; @if( username ) {
+    <app-button
+      [label]="'Log out'"
+      [icon]="'logout'"
+      (clicked)="logout()"
+    ></app-button>
+    <a [routerLink]="['/profile', username]">
+      {{ username }}
+    </a>
+    } @else {
+    <app-button
+      [label]="'Log in'"
+      [icon]="'login'"
+      [routerLink]="['/login']"
+    ></app-button>
+    } @if( !username ) {
+
+    <app-button
+      [label]="'Register'"
+      [icon]="'app_registration'"
+      [routerLink]="['/register']"
+    ></app-button>
+    } @if(user_id && avatarUrl) {
+    <img
+      avatar
+      [size]="'40'"
+      [url]="
+        sanitizer.bypassSecurityTrustUrl('http://localhost:3300/' + avatarUrl)
+      "
+    />
+    <upload-file
+      (fileSubmitted)="uploadAvatar($event, user_id)"
+      [isMultiple]="false"
+      [showIcon]="true"
+    ></upload-file>
+    } @else {
+    <img avatar [size]="'40'" />
+    }
+    <mat-icon
+      [matBadge]="(selectWishlistItems$ | ngrxPush)?.length"
+      [routerLink]="['/wishlist']"
+    >
+      favorite_outline
+    </mat-icon>
+    <mat-icon
+      [matBadge]="(selectCart$ | ngrxPush)?.length"
+      size="'small'"
+      [routerLink]="['/cart']"
+      >add_shopping_cart</mat-icon
+    >
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <!-- @if(isAdmin$ | ngrxPush) { -->
+    <mat-icon [routerLink]="['/admin/create-product']"> add_2 </mat-icon>
+
+    <app-button
+      [label]="'Admin panel'"
+      [icon]="'admin_panel_settings'"
+      [routerLink]="['/admin/users']"
+    ></app-button>
+    <!-- } -->
+    @if(!isAdmin$ | ngrxPush) {
+    <mat-form-field>
+      <mat-label>Search Product</mat-label>
+      <input
+        type="text"
+        matInput
+        [formControl]="searchQuery"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (option of (filteredOptions$ | ngrxPush) ; track option) {
+        <mat-option [value]="option"> {{ option }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-icon>search</mat-icon>
+
+    }
+  </mat-toolbar-row>
+</mat-toolbar>

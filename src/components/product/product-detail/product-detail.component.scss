@@ -1,0 +1,12 @@
+.product-detail {
+  display: flex;
+  &-images {
+    max-width: 70%;
+    &--item {
+      margin: 1rem;
+    }
+  }
+  &-info {
+    max-width: 30%;
+  }
+}

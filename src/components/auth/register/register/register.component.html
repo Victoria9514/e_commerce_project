@@ -1,0 +1,38 @@
+@if(loading$ | ngrxPush) {
+<app-spinner></app-spinner>
+}@else {
+<form [formGroup]="registerForm">
+  <mat-form-field class="example-full-width">
+    <mat-label>Username</mat-label>
+    <input matInput placeholder="'username'" formControlName="username" />
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>First name</mat-label>
+    <input matInput placeholder="'firstname'" formControlName="firstName" />
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Last name</mat-label>
+    <input matInput placeholder="'lastname'" formControlName="lastName" />
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Email</mat-label>
+    <input matInput placeholder="'email'" formControlName="email" />
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Password</mat-label>
+    <input
+      type="password"
+      matInput
+      placeholder="'password'"
+      formControlName="password"
+    />
+  </mat-form-field>
+</form>
+<app-button
+  [label]="'register'"
+  [icon]="'arrow_forward'"
+  [isDisabled]="registerForm.invalid || registerForm.pending"
+  (clicked)="onSubmit()"
+  (keyup.enter)="onSubmit()"
+></app-button>
+}

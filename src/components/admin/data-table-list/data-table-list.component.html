@@ -1,0 +1,19 @@
+<mat-form-field>
+  <mat-label>Select data</mat-label>
+  <mat-select>
+    <mat-option [value]="DataSourceOption.USERS" [routerLink]="['/admin/users']"
+      >{{ DataSourceOption.USERS }}
+    </mat-option>
+    <mat-option [value]="DataSourceOption.PRODUCTS"  [routerLink]="['/admin/products']"
+      >{{ DataSourceOption.PRODUCTS }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+@if(data$) {
+<app-data-table
+  [dataSource]="data$ | ngrxPush"
+  [displayedColumns$]="(displayedColumns$ | ngrxPush) ?? []"
+></app-data-table>
+} @if(loading$ | ngrxPush){
+<app-spinner></app-spinner>
+}

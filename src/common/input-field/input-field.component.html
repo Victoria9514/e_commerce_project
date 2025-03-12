@@ -1,0 +1,33 @@
+<label
+  [class.disabled]="disabled()"
+  [class.has-value]="value().length > 0"
+  [class.clearable]="clearable()"
+>
+  <span>
+    {{ label() }}
+  </span>
+
+  <div class="input-container">
+    <input
+      matInput
+      #inputElement
+      [type]="type()"
+      [value]="value()"
+      [placeholder]="placeholder()"
+      [disabled]="disabled()"
+      (change)="value.set(inputElement.value)"
+      (keyup.enter)="submitted.emit()"
+    />
+
+    @if (clearable()) {
+    <button
+      mat-button
+      [disabled]="disabled()"
+      (click)="value.set('')"
+    >
+    <mat-icon>cancel</mat-icon>
+      cancel
+    </button>
+    }
+  </div>
+</label>
