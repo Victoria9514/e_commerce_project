@@ -14,7 +14,6 @@ import { Store } from '@ngrx/store';
 import { Product } from '../../../models/product.model';
 
 import { RouterModule } from '@angular/router';
-import { PushPipe } from '@ngrx/component';
 import { ProductsActions } from '../store/product.actions';
 // import { selectFavorites } from '../store/product.selector';
 @Component({
@@ -26,7 +25,6 @@ import { ProductsActions } from '../store/product.actions';
         MatCardModule,
         MatIcon,
         MatButtonModule,
-        PushPipe,
         MatSelectModule,
     ],
     templateUrl: './product-item.component.html',

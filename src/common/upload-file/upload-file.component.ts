@@ -1,13 +1,12 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
-  Output,
   ViewChild,
   ViewEncapsulation,
   booleanAttribute,
   inject,
   input,
+  output
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
@@ -26,7 +25,7 @@ export class UploadFileComponent {
   isMultiple = input<boolean>();
   hidden = input(false, { transform: booleanAttribute });
   showIcon = input(false)
-  @Output() fileSubmitted = new EventEmitter<FileList>();
+  readonly fileSubmitted = output<FileList>();
 
   @ViewChild('fileUploader') fileUploader!: ElementRef;
 

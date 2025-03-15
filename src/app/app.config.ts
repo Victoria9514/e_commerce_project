@@ -16,7 +16,6 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
 import { provideEffects } from '@ngrx/effects';
 import {
-  MetaReducer,
   provideState,
   provideStore
 } from '@ngrx/store';
@@ -28,14 +27,13 @@ import { productEffects$ } from '../components/product/store';
 import { userEffects$ } from '../components/user/store';
 import { storeEffects$ } from '../store';
 import {
-  appStorageSyncReducer,
   initialdFeatureKey,
   reducers,
 } from '../store/reducers';
 import { routes } from './app.routes';
 
 // Define metaReducers array
-const metaReducers: Array<MetaReducer<any, any>> = [appStorageSyncReducer];
+// const metaReducers: Array<MetaReducer<any, any>> = [appStorageSyncReducer];
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -55,7 +53,7 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     provideHttpClient(withInterceptorsFromDi()),
-    provideStore(reducers, {metaReducers}),
+    provideStore(reducers),
     provideState({ name: initialdFeatureKey, reducer: reducers }),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states

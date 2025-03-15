@@ -1,21 +1,17 @@
-import { Injectable, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Injectable } from '@angular/core';
 import { ProductGender } from '../models/product.model';
 export interface NavLinks {
-  label: string;
+  route: string;
+  name: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class NavigationService {
-  route: ActivatedRoute = inject(ActivatedRoute);
-
   navLinks: NavLinks[] = [
-    { label: ProductGender.WOMEN },
-    { label: ProductGender.MEN },
-    { label: ProductGender.KIDS },
-    { label: ProductGender.UNISEX },
+    { route: `/products/${ProductGender.WOMEN}`, name: ProductGender.WOMEN },
+    { route: `/products/${ProductGender.MEN}`, name: ProductGender.MEN },
+    { route: `/products/${ProductGender.KIDS}`, name: ProductGender.KIDS },
   ];
-  activeLink = this.navLinks[0].toString();
 }

@@ -1,0 +1,11 @@
+.toolbar {
+  &--links {
+    text-decoration: none;
+    color: red;
+    margin-inline-end: .5rem;
+    &.active {
+    text-decoration: underline;
+
+    }
+  }
+}

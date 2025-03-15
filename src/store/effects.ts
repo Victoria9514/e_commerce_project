@@ -97,7 +97,6 @@ export const addSubCategory$ = createEffect(
     actions$.pipe(
       ofType(CategoryActions.addSubCategory),
       switchMap(({ newSubCategory }) => {
-        console.log(newSubCategory);
         return http
           .post<ISubCategoryRes, ISubCategory>(
             newSubCategory,

@@ -1,5 +1,4 @@
-import { MediaMatcher } from '@angular/cdk/layout';
-import { Component, ViewEncapsulation, inject, signal } from '@angular/core';
+import { Component, ViewEncapsulation, signal } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterOutlet } from '@angular/router';
@@ -24,20 +23,5 @@ import { TopbarComponent } from '../layout/topbar/topbar.component';
 export class AppComponent {
   protected readonly isMobile = signal(true);
 
-  // private readonly _mobileQuery: MediaQueryList;
-  // private readonly _mobileQueryListener: () => void;
-
-  constructor() {
-    const media = inject(MediaMatcher);
-
-    // this._mobileQuery = media.matchMedia('(max-width: auto)');
-    // this.isMobile.set(this._mobileQuery.matches);
-    // this._mobileQueryListener = () => this.isMobile.set(this._mobileQuery.matches);
-    // this._mobileQuery.addEventListener('change', this._mobileQueryListener);
-  }
-
-  ngOnDestroy(): void {
-    // this._mobileQuery.removeEventListener('change', this._mobileQueryListener);
-  }
 
 }

@@ -2,10 +2,8 @@ import { AdminState } from '../components/admin/store/admin.reducer';
 import { AuthState, authState } from '../components/auth/store/auth.reducer';
 import { CartState, cartState } from '../components/cart/store/store';
 import { ProductState } from '../components/product/store/product.reducer';
-import { UserState } from '../components/user/store/user.reducer';
+import { UserState, userState } from '../components/user/store/user.reducer';
 import { IProduct } from './product.model';
-import { User } from './user.model';
-
 export interface ICategory {
   id: number;
   name: string;
@@ -32,6 +30,7 @@ export interface SharedState {
   categories: ICategoryRes;
   sub_categories: ISubCategoryRes;
   categoryOptions: number;
+  is_dark_mode: boolean;
 }
 
 export const sharedState = {
@@ -43,6 +42,7 @@ export const sharedState = {
     message: '',
   },
   categoryOptions: 0,
+  is_dark_mode: false
 };
 
 export interface AppState {
@@ -64,9 +64,9 @@ export const appState: AppState = {
     searchProductResults: [],
     wishlist: [],
   },
-  userState: { user: {} as User, orders: [] },
+  userState,
   adminState: { users: [], isAdmin: false, orders: [] },
-  sharedState: sharedState,
-  authState: authState,
-  cartState: cartState,
+  sharedState,
+  authState,
+  cartState
 };

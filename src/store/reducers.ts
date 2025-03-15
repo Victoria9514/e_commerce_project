@@ -1,5 +1,4 @@
-import { ActionReducer, combineReducers, createReducer, on } from '@ngrx/store';
-import { localStorageSync } from 'ngrx-store-localstorage';
+import { combineReducers, createReducer, on } from '@ngrx/store';
 import { adminReducer } from '../components/admin/store/admin.reducer';
 import { authReducer } from '../components/auth/store/auth.reducer';
 import { cartReducer } from '../components/cart/store/reducer';
@@ -83,16 +82,5 @@ export const reducers = combineReducers({
   sharedState: sharedReducer,
   cartState: cartReducer,
 });
-
-export function appStorageSyncReducer(
-  reducer: ActionReducer<any>
-): ActionReducer<any> {
-  localStorageSync({
-    keys: Object.keys(reducers),
-    rehydrate: true,
-    removeOnUndefined: true,
-  })(reducers);
-  return reducer;
-}
 
 export const initialdFeatureKey = 'project';

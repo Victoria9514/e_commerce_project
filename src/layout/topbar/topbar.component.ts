@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, output, signal } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject, output, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { Observable, map, startWith, switchMap } from 'rxjs';
@@ -17,8 +17,7 @@ import { ButtonComponent } from '../../common/button/button.component';
 import { UploadFileComponent } from '../../common/upload-file/upload-file.component';
 import {
   selectAdmin,
-  selectCurrentUser,
-  selectInitals,
+  selectCurrentUser
 } from '../../components/auth/store/selectors';
 import { selectCart } from '../../components/cart/store/selectors';
 import { selectAllTitles, selectWishlistItems } from '../../components/product/store/product.selector';
@@ -26,6 +25,7 @@ import { updateAvatar } from '../../components/user/store/user.actions';
 import { AvatarDirective } from '../../directives/avatar.directive';
 import { AuthService } from '../../services/auth.service';
 import { NavLinks, NavigationService } from '../../services/navigation.service';
+import { ThemeService } from '../../services/theme.service';
 import { loadingSpinner } from '../../store/actions';
 
 @Component({
@@ -47,8 +47,9 @@ import { loadingSpinner } from '../../store/actions';
         AvatarDirective,
         UploadFileComponent,
     ],
+    encapsulation: ViewEncapsulation.None,
     templateUrl: './topbar.component.html',
-    styleUrl: './topbar.component.scss'
+    styleUrl: './topbar.component.scss',
 })
 export class TopbarComponent implements OnInit {
   store = inject(Store);
@@ -58,15 +59,15 @@ export class TopbarComponent implements OnInit {
   isAdmin$ = this.store.select(selectAdmin);
   toggleMenu = output<void>();
   navLinks = signal<NavLinks[]>(this.navService.navLinks);
-  activeLink? = this.navService?.activeLink;
-  router = inject(Router);
   options$: Observable<string[]> = this.store.select(selectAllTitles);
   filteredOptions$?: Observable<string[]>;
   searchQuery = new FormControl<string[] | string>([]);
   selectCart$ = this.store.select(selectCart)
   selectWishlistItems$ = this.store.select(selectWishlistItems)
-  public initials$ = this.store.select(selectInitals);
   public sanitizer = inject(DomSanitizer);
+  theme = inject(ThemeService);
+  isDarkTheme : boolean = this.theme.isDarkMode();
+
   ngOnInit() {
     this.filteredOptions$ = this.searchQuery.valueChanges.pipe(
       startWith(''),
@@ -76,6 +77,11 @@ export class TopbarComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  toggleMode(){
+    this.isDarkTheme = !this.isDarkTheme
+    this.theme.setDarkMode(this.isDarkTheme)
   }
 
   private _filter(value: string): Observable<string[]> {

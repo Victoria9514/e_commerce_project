@@ -1,5 +1,5 @@
 <mat-toolbar>
-  <mat-toolbar-row>
+  <mat-toolbar-row class="toolbar">
     @let user_id = (user$ | ngrxPush)?.user_id; @let avatarUrl= (user$ |
     ngrxPush)?.avatar;
     <app-button [icon]="'menu'" (clicked)="toggleMenu.emit()" mat-mini-fab>
@@ -7,11 +7,13 @@
     @for( link of navLinks() ;track link) {
 
     <a
-      matTabLink
-      [routerLink]="['/products', link.label]"
-      routerLinkActive="active"
+      class="toolbar--links"
+      [routerLink]="link.route"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [class.active]="rla.isActive"
     >
-      {{ link.label }}
+      {{ link.name }}
     </a>
 
     } @let username = (user$ | ngrxPush)?.username; @if( username ) {
@@ -64,6 +66,11 @@
       [routerLink]="['/cart']"
       >add_shopping_cart</mat-icon
     >
+    <button mat-button (click)="toggleMode()">
+      <mat-icon [fontIcon]="isDarkTheme ? 'dark_mode' : 'light_mode'">
+        dark_mode</mat-icon
+      >
+    </button>
   </mat-toolbar-row>
   <mat-toolbar-row>
     <!-- @if(isAdmin$ | ngrxPush) { -->
