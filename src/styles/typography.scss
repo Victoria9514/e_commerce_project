@@ -1,15 +1,5 @@
-// @use '@angular/material' as mat;
-
-// html {
-//   @include mat.theme((
-//     color: mat.$violet-palette,
-//     typography: (
-//       plain-family: Roboto,
-//       brand-family: Open Sans,
-//       bold-weight: 900,
-//       medium-weight: 500,
-//       regular-weight: 300,
-//     ),
-//     density: 0,
-//   ));
-// }
+$custom-typography: mat-typography-config(
+  $font-family: 'Roboto, Arial, sans-serif',
+  $headline-1: mat-typography-level(96px, 96px, 300),
+  $headline-2: mat-typography-level(60px, 60px, 300),
+);

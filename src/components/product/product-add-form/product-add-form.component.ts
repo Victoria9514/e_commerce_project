@@ -30,7 +30,8 @@ import {
   ProductColor,
   ProductForm,
   ProductGender,
-  ProductShoesSize
+  ProductShoesSize,
+  sizes
 } from '../../../models/product.model';
 import { ICategory, ISubCategory } from '../../../models/states.models';
 import { CategoryActions, loadingSpinner } from '../../../store/actions';
@@ -70,28 +71,15 @@ export class ProductAddFormComponent implements OnInit {
   public readonly genders = Object.values(ProductGender);
   selectCategories$ = this.store.select(selectCategories);
   selectSubCategories$ = this.store.select(selectCurrentSubCategory);
-
+  readonly sizes = sizes
   toggleBtns = { toggleCategory: false, toggleSubCategory: false };
   productForm: FormGroup = new FormGroup({});
   categoryForm: FormGroup = new FormGroup({});
   subCategoryForm: FormGroup = new FormGroup({});
+  formData = new FormData();
 
-
-  // public category1 = signal(ProductCategory.CLOTHES);
   @ViewChild(FormGroupDirective) private formDir!: FormGroupDirective;
 
-  formData = new FormData();
-  // selectedSize = computed(() =>
-  //   this.category1() === ProductCategory.CLOTHES
-  //     ? Object.values(ProductClothesSize)
-  //     : Object.values(ProductShoesSize)
-  // );
-
-  // selectedCategoryItem = computed(() =>
-  //   this.category1() === ProductCategory.CLOTHES
-  //     ? Object.values(ProductClothesItem)
-  //     : Object.values(ProductShoesItem)
-  // );
 
   ngOnInit() {
     this.productForm = this.fb.group<ProductForm>({
@@ -117,9 +105,6 @@ export class ProductAddFormComponent implements OnInit {
       desc: new FormControl(''),
       categoryName: new FormControl(''),
     });
-
-
-
 
     this.store.dispatch(loadingSpinner({ status: true }));
     this.store.dispatch(CategoryActions.getCategories());
@@ -155,5 +140,6 @@ export class ProductAddFormComponent implements OnInit {
   valueChanged(event: MatSelectChange) {
     console.log(event.value)
     this.store.dispatch(CategoryActions.valueChaged({value: event.value}))
+    console.log(this.sizes)
   }
 }

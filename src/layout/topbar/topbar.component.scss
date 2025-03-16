@@ -1,11 +1,16 @@
+// @use './../../styles/typography.scss' as custom-typography;
+$config: mat-typography-config();
+
 .toolbar {
   &--links {
     text-decoration: none;
     color: red;
     margin-inline-end: .5rem;
-    &.active {
-    text-decoration: underline;
 
+    &.active {
+      // typography test only
+      font-size: mat-font-size($config, headline-1);
+      text-decoration: underline;
     }
   }
 }

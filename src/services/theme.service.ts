@@ -61,9 +61,9 @@ export class ThemeService {
 
   private _applyDarkModeClass(enabled: boolean): void {
     if (enabled) {
-      this._renderer.addClass(this._document.body, this.DARK_MODE_CLASS);
+      this._renderer.addClass(this._document.documentElement, this.DARK_MODE_CLASS);
     } else {
-      this._renderer.removeClass(this._document.body, this.DARK_MODE_CLASS);
+      this._renderer.removeClass(this._document.documentElement, this.DARK_MODE_CLASS);
     }
   }
 }

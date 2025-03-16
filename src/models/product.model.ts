@@ -14,7 +14,7 @@ export interface IProduct {
   gender: ProductGender;
   price: number;
   images_path?: string;
-  favorite?: boolean
+  favorite?: boolean;
 }
 
 export class Product implements IProduct {
@@ -28,12 +28,12 @@ export class Product implements IProduct {
   color: ProductColor;
   price: number;
   gender: ProductGender;
-  images_path?: string | "";
+  images_path?: string | '';
   count?: string | undefined;
   images_name?: string | undefined;
   quantity!: number;
   cart?: string[] | undefined;
-  favorite?: boolean | undefined
+  favorite?: boolean | undefined;
 
   constructor(product: IProduct) {
     this.product_id = product.product_id;
@@ -122,9 +122,11 @@ export enum ProductGender {
   WOMEN = 'WOMEN',
   MEN = 'MEN',
   KIDS = 'KIDS',
-  UNISEX = 'UNISEX',
 }
 
-export interface IProductRes {
-  message: string;
-}
+export const sizes = {
+  1: {}, //bags
+  2: Object.values(ProductShoesSize), //shoes
+  3: Object.values(ProductClothesSize), // clothes
+  4: {}, //accessoars
+} as const;
