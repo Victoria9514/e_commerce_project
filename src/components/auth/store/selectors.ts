@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../../../models/states.models';
 import { IUser, Role } from '../../../models/user.model';
-import { selectAppState } from '../../../store/selectors';
+import { selectAppState } from '../../../store/shared.selectors';
 
 const DEFAULT_PROFILE_PIC_URL = './../../../assets/images/blank.png';
 

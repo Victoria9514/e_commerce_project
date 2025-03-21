@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, finalize, of, switchMap } from 'rxjs';
 import { LocalStorageService } from '../../../services/localStorage.service';
-import { loadingSpinner, showMessage } from '../../../store/actions';
+import { loadingSpinner, showMessage } from '../../../store/shared.actions';
 import { CartActions } from './actions';
 
 export const addCartItem$ = createEffect(

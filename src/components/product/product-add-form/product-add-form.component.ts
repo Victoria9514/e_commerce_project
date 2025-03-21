@@ -1,8 +1,8 @@
 import {
   Component,
   OnInit,
-  ViewChild,
-  inject
+  inject,
+  viewChild
 } from '@angular/core';
 import {
   FormBuilder,
@@ -26,19 +26,15 @@ import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { UploadFileComponent } from '../../../common/upload-file/upload-file.component';
 import {
-  ProductClothesSize,
   ProductColor,
   ProductForm,
-  ProductGender,
-  ProductShoesSize,
-  sizes
+  ProductGender
 } from '../../../models/product.model';
-import { ICategory, ISubCategory } from '../../../models/states.models';
-import { CategoryActions, loadingSpinner } from '../../../store/actions';
+import { ICategory } from '../../../models/states.models';
+import { loadingSpinner, sharedActions } from '../../../store/shared.actions';
 import {
   selectCategories,
-  selectCurrentSubCategory
-} from '../../../store/selectors';
+} from '../../../store/shared.selectors';
 import { Utils } from '../../../utils';
 import { ProductsActions } from '../store/product.actions';
 
@@ -66,19 +62,18 @@ export class ProductAddFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly store = inject(Store);
   public readonly productColors = Object.values(ProductColor);
-  public readonly shoesSizes = Object.values(ProductShoesSize);
-  public readonly clothesSizes = Object.values(ProductClothesSize);
+  // public readonly shoesSizes = Object.values(ProductShoesSize);
+  // public readonly clothesSizes = Object.values(ProductClothesSize);
   public readonly genders = Object.values(ProductGender);
-  selectCategories$ = this.store.select(selectCategories);
-  selectSubCategories$ = this.store.select(selectCurrentSubCategory);
-  readonly sizes = sizes
+  selectCategories$ = this.store.select(selectCategories)
+  // selectSubCategories$ = this.store.select(selectCurrentSubCategory)
   toggleBtns = { toggleCategory: false, toggleSubCategory: false };
   productForm: FormGroup = new FormGroup({});
   categoryForm: FormGroup = new FormGroup({});
   subCategoryForm: FormGroup = new FormGroup({});
   formData = new FormData();
 
-  @ViewChild(FormGroupDirective) private formDir!: FormGroupDirective;
+  readonly formDir = viewChild.required(FormGroupDirective);
 
 
   ngOnInit() {
@@ -86,12 +81,12 @@ export class ProductAddFormComponent implements OnInit {
       product_id: new FormControl(Utils.generateUUID()),
       title: new FormControl('', [Validators.required]),
       desc: new FormControl('', [Validators.required]),
-      quantity: new FormControl(1, [Validators.required]),
+      // quantity: new FormControl(1, [Validators.required]),
       color: new FormControl(null, [Validators.required]),
       category: new FormControl(0, [Validators.required]),
       sub_category: new FormControl([Validators.required]),
       gender: new FormControl(null, [Validators.required]),
-      size: new FormControl(null, [Validators.required]),
+      // size: new FormControl(null, [Validators.required]),
       price: new FormControl(0, [Validators.required]),
     });
 
@@ -107,14 +102,14 @@ export class ProductAddFormComponent implements OnInit {
     });
 
     this.store.dispatch(loadingSpinner({ status: true }));
-    this.store.dispatch(CategoryActions.getCategories());
-    this.store.dispatch(CategoryActions.getSubCategories());
+    this.store.dispatch(sharedActions.getCategories());
+    // this.store.dispatch(sharedActions.getSubCategories());
   }
 
   submit(files: FileList) {
     if (!files) throw new Error('no files selected');
     if (files instanceof FileList) {
-      for (let i = 0; i < files?.length; i += 1) {
+      for (let i = 0; i < files.length; i += 1) {
         this.formData.append(`images`, files[i]);
       }
     }
@@ -122,24 +117,24 @@ export class ProductAddFormComponent implements OnInit {
 
   onSubmit() {
     this.formData.append('data', JSON.stringify(this.productForm.value));
+    console.log(this.productForm.value)
     this.store.dispatch(loadingSpinner({ status: true }));
     this.store.dispatch(ProductsActions.addProduct({ product: this.formData }));
-    this.formDir.resetForm();
+    this.formDir().resetForm();
   }
 
   addCategory(newCategory: ICategory) {
-    this.store.dispatch(CategoryActions.addCategory({ newCategory }));
+    this.store.dispatch(sharedActions.addCategory({ newCategory }));
     this.categoryForm.reset();
   }
 
-  addSubCategory(newSubCategory: ISubCategory) {
-    this.store.dispatch(CategoryActions.addSubCategory({ newSubCategory }));
+  addSubCategory(newSubCategory: ICategory) {
+    this.store.dispatch(sharedActions.addSubCategory({ newSubCategory }));
     this.subCategoryForm.reset();
   }
 
   valueChanged(event: MatSelectChange) {
     console.log(event.value)
-    this.store.dispatch(CategoryActions.valueChaged({value: event.value}))
-    console.log(this.sizes)
+    this.store.dispatch(sharedActions.valueChaged({value: event.value}))
   }
 }

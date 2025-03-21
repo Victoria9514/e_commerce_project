@@ -26,7 +26,7 @@ import { AvatarDirective } from '../../directives/avatar.directive';
 import { AuthService } from '../../services/auth.service';
 import { NavLinks, NavigationService } from '../../services/navigation.service';
 import { ThemeService } from '../../services/theme.service';
-import { loadingSpinner } from '../../store/actions';
+import { loadingSpinner } from '../../store/shared.actions';
 
 @Component({
     selector: 'app-topbar',

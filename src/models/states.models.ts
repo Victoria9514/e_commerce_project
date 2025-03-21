@@ -1,52 +1,43 @@
-import { AdminState } from '../components/admin/store/admin.reducer';
+import {
+  AdminState,
+  adminState,
+} from '../components/admin/store/admin.reducer';
 import { AuthState, authState } from '../components/auth/store/auth.reducer';
 import { CartState, cartState } from '../components/cart/store/store';
-import { ProductState } from '../components/product/store/product.reducer';
+import {
+  ProductState,
+  productState,
+} from '../components/product/store/product.reducer';
 import { UserState, userState } from '../components/user/store/user.reducer';
-import { IProduct } from './product.model';
+import { CategorySizes } from './product.model';
 export interface ICategory {
   id: number;
-  name: string;
+  type: string;
   desc: string;
-}
-
-export interface ISubCategory extends ICategory {
-  categoryId: number;
-}
-
-export interface ICategoryRes {
-  categories: Array<ICategory>;
-  message: string;
-}
-
-export interface ISubCategoryRes {
-  sub_categories: Array<ISubCategory>;
-  message: string;
+  children: ICategory[];
+  categoryId?: number
 }
 
 export interface SharedState {
   loading: boolean;
   message: string;
-  categories: ICategoryRes;
-  sub_categories: ISubCategoryRes;
+  categories: Array<ICategory>;
   categoryOptions: number;
+  categorySizes: CategorySizes;
   is_dark_mode: boolean;
 }
 
 export const sharedState = {
   loading: false,
   message: '',
-  categories: { categories: [{ id: 0, name: '', desc: '' }], message: '' },
-  sub_categories: {
-    sub_categories: [{ id: 0, name: '', desc: '', categoryId: 0 }],
-    message: '',
-  },
+  categories: [] as ICategory[],
   categoryOptions: 0,
-  is_dark_mode: false
+  categorySizes: [],
+  is_dark_mode: false,
 };
 
 export interface AppState {
-  productsState: ProductState;
+  productState: ProductState;
   userState: UserState;
   adminState: AdminState;
   sharedState: SharedState;
@@ -55,18 +46,10 @@ export interface AppState {
 }
 
 export const appState: AppState = {
-  productsState: {
-    products: [],
-    currentProduct: {} as IProduct,
-    filteredProducts: null,
-    deletedProductId: '',
-    searchQuery: '',
-    searchProductResults: [],
-    wishlist: [],
-  },
+  productState,
   userState,
-  adminState: { users: [], isAdmin: false, orders: [] },
+  adminState,
   sharedState,
   authState,
-  cartState
+  cartState,
 };

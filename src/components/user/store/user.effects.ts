@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { catchError, finalize, map, mergeMap, of } from 'rxjs';
 import { IUser } from '../../../models/user.model';
 import { HttpService } from '../../../services/http.service';
-import { loadingSpinner, showMessage } from '../../../store/actions';
+import { loadingSpinner, showMessage } from '../../../store/shared.actions';
 import { STATIC_URLS } from '../../../utils';
 import { updateAvatar, updateAvatarSuccess } from './user.actions';
 

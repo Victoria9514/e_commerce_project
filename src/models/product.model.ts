@@ -2,19 +2,20 @@ import { FormControl } from '@angular/forms';
 
 export interface IProduct {
   product_id: string;
+  type: string;
   title: string;
   description: string;
   size: string[];
   category_id: number;
   sub_category: ProductClothesItem | ProductShoesItem;
-  isActive: boolean | undefined;
+  isActive: boolean;
   color: ProductColor;
   cart?: string[];
   quantity: number;
   gender: ProductGender;
   price: number;
   images_path?: string;
-  favorite?: boolean;
+  favorite: boolean;
 }
 
 export class Product implements IProduct {
@@ -24,7 +25,7 @@ export class Product implements IProduct {
   size: string[];
   category_id: number;
   sub_category: ProductClothesItem | ProductShoesItem;
-  isActive: boolean | undefined;
+  isActive: boolean;
   color: ProductColor;
   price: number;
   gender: ProductGender;
@@ -33,7 +34,8 @@ export class Product implements IProduct {
   images_name?: string | undefined;
   quantity!: number;
   cart?: string[] | undefined;
-  favorite?: boolean | undefined;
+  favorite: boolean;
+  type: string;
 
   constructor(product: IProduct) {
     this.product_id = product.product_id;
@@ -46,7 +48,8 @@ export class Product implements IProduct {
     this.color = product.color;
     this.price = product.price;
     this.gender = product.gender;
-    // this.favorite = product.favorite
+    this.favorite = product.favorite
+    this.type = product.type
   }
 }
 export const ProductCategory = {
@@ -77,8 +80,8 @@ export type ProductForm = {
   product_id: FormControl<string | null>;
   title: FormControl<string | null>;
   desc: FormControl<string | null>;
-  quantity: FormControl<number | null>;
-  size: FormControl<(ProductClothesSize | ProductShoesSize)[] | null>;
+  // quantity: FormControl<number | null>;
+  // size: FormControl<(ProductClothesSize | ProductShoesSize)[] | null>;
   category: FormControl<number | null>;
   sub_category: FormControl<(any | any)[] | null>;
   color: FormControl<ProductColor | null>;
@@ -124,9 +127,13 @@ export enum ProductGender {
   KIDS = 'KIDS',
 }
 
-export const sizes = {
-  1: {}, //bags
-  2: Object.values(ProductShoesSize), //shoes
-  3: Object.values(ProductClothesSize), // clothes
-  4: {}, //accessoars
-} as const;
+export interface CategorySizes {
+  [categoryId: number]: Array<ProductShoesSize[] | ProductClothesSize[]>;
+}
+
+// export const sizes: CategorySizes = [
+//    0: [] , //bags
+//   // 0: [Object.values(ProductShoesSize)], //shoes
+//   // 3: [Object.values(ProductClothesSize)], // clothes
+//   // 4: [], //accessoars
+// ] as const;

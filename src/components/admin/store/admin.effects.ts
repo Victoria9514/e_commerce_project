@@ -5,7 +5,7 @@ import { catchError, finalize, map, mergeMap, of } from 'rxjs';
 import { IUser, UserTableModel } from '../../../models/user.model';
 import { HttpService } from '../../../services/http.service';
 import { LocalStorageService } from '../../../services/localStorage.service';
-import { loadingSpinner, showMessage } from '../../../store/actions';
+import { loadingSpinner, showMessage } from '../../../store/shared.actions';
 import { STATIC_URLS } from '../../../utils';
 import { AdminActions } from './admin.actions';
 

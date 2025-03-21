@@ -1,2 +1,2 @@
-export * as storeEffects$ from './effects';
+export * as storeEffects$ from './shared.effects';
 

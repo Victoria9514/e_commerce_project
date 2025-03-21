@@ -4,12 +4,7 @@ import {
   emptyProps,
   props,
 } from '@ngrx/store';
-import {
-  ICategory,
-  ICategoryRes,
-  ISubCategory,
-  ISubCategoryRes,
-} from '../models/states.models';
+import { ICategory } from '../models/states.models';
 
 export const loadingSpinner = createAction(
   '[SHOW LOADING SPINNER] Loading',
@@ -21,23 +16,23 @@ export const showMessage = createAction(
   props<{ message: string }>()
 );
 
-export const CategoryActions = createActionGroup({
+export const sharedActions = createActionGroup({
   source: 'Category Actions',
   events: {
     getCategories: emptyProps(),
     getCategoriesSuccess: props<{
-      categories: ICategoryRes;
+      categories: ICategory[];
     }>(),
     getSubCategories: emptyProps(),
     getSubCategoriesSuccess: props<{
-      sub_categories: ISubCategoryRes;
+      children:   ICategory[];
     }>(),
     addCategory: props<{
       newCategory: ICategory;
     }>(),
     addCategorySuccess: emptyProps(),
     addSubCategory: props<{
-      newSubCategory: ISubCategory;
+      newSubCategory: ICategory;
     }>(),
     addSubCategorySuccess: emptyProps(),
     valueChaged: props<{

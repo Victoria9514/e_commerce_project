@@ -4,7 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, finalize, map, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
-import { loadingSpinner, showMessage } from '../../../store/actions';
+import { loadingSpinner, showMessage } from '../../../store/shared.actions';
 import { AuthActions } from './auth.actions';
 
 export const login$ = createEffect(

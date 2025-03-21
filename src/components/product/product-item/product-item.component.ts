@@ -1,7 +1,6 @@
 import { CommonModule, IMAGE_CONFIG, NgOptimizedImage } from '@angular/common';
 import {
   Component,
-  Input,
   ViewEncapsulation,
   inject,
   input
@@ -43,10 +42,8 @@ import { ProductsActions } from '../store/product.actions';
 export class ProductItemComponent {
   store = inject(Store);
   product = input.required<Product>();
-  @Input() itemHeight!: number;
-  // selectFavorites$ = this.store.select(selectFavorites)
 
-  likeChanged(id: string) {
-    this.store.dispatch(ProductsActions.toggleFavorite({ id }));
+  likeChanged(id: string, isAdded: boolean) {
+    this.store.dispatch(ProductsActions.toggleFavorite({ id , isAdded}));
   }
 }

@@ -6,9 +6,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  ViewChild,
   ViewEncapsulation,
   inject,
+  viewChild
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PushPipe } from '@ngrx/component';
@@ -32,7 +32,7 @@ export class ProductListComponent implements OnInit {
   private readonly store = inject(Store<AppState>);
   private route = inject(ActivatedRoute);
   products$ = this.store.pipe(select(selectProducts));
-  @ViewChild(CdkVirtualScrollViewport) viewport!: CdkVirtualScrollViewport;
+  readonly viewport = viewChild.required(CdkVirtualScrollViewport);
   itemHeight = 200;
   filterByGender: any;
   idTrackFn = (product_id: number) => product_id;

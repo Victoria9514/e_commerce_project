@@ -1,12 +1,12 @@
 import {
   Component,
   ElementRef,
-  ViewChild,
   ViewEncapsulation,
   booleanAttribute,
   inject,
   input,
-  output
+  output,
+  viewChild
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
@@ -26,8 +26,7 @@ export class UploadFileComponent {
   hidden = input(false, { transform: booleanAttribute });
   showIcon = input(false)
   readonly fileSubmitted = output<FileList>();
-
-  @ViewChild('fileUploader') fileUploader!: ElementRef;
+  readonly fileUploader = viewChild.required<ElementRef>('fileUploader');
 
   onFileSelected(event: Event): void {
     this.selectedFile = (event.target as HTMLInputElement).files;
@@ -39,7 +38,7 @@ export class UploadFileComponent {
   }
 
   resetFiles() {
-    this.fileUploader.nativeElement.value = null;
+    this.fileUploader().nativeElement.value = null;
   }
 
   // onSubmit(): boolean {

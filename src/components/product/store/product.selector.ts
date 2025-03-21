@@ -1,12 +1,12 @@
 import { createSelector } from '@ngrx/store';
 import { IProduct, Product } from '../../../models/product.model';
 import { AppState } from '../../../models/states.models';
-import { selectAppState } from '../../../store/selectors';
+import { selectAppState } from '../../../store/shared.selectors';
 import { ProductState } from './product.reducer';
 
 export const selectProductState = createSelector(
   selectAppState,
-  (appState: AppState) => appState?.productsState
+  (appState: AppState) => appState?.productState
 );
 
 export const selectProducts = createSelector(

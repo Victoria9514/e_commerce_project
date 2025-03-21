@@ -4,7 +4,7 @@ import { ProductsActions } from './product.actions';
 
 export interface ProductState {
   products: IProduct[];
-  currentProduct: IProduct | undefined;
+  currentProduct: IProduct | null;
   filteredProducts: null | IProduct[];
   deletedProductId: string;
   wishlist: string[];
@@ -14,12 +14,12 @@ export interface ProductState {
 
 export const productState: ProductState = {
   products: [],
-  currentProduct: undefined,
+  currentProduct: null,
   filteredProducts: null,
   deletedProductId: '',
+  wishlist: [],
   searchQuery: '',
   searchProductResults: [],
-  wishlist: [],
 };
 
 export const productReducer = createReducer(
@@ -28,7 +28,7 @@ export const productReducer = createReducer(
     return {
       ...state,
       products: payload?.products,
-      currentProduct: undefined,
+      currentProduct: null,
     };
   }),
   on(ProductsActions.deleteProduct, (state: ProductState, payload) => {
@@ -104,7 +104,7 @@ export const productReducer = createReducer(
           ? { ...pr, favorite: !pr.favorite }
           : pr;
       }),
-      wishlist: [...state.wishlist, payload.id],
+      wishlist: !payload.isAdded ?  [...state.wishlist, payload.id] : [...state.wishlist.filter(id=> id !== payload.id )]
     };
   })
 );

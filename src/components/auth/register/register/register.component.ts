@@ -15,8 +15,8 @@ import { RegisterForm } from '../../../../models/register_form.model';
 import { User } from '../../../../models/user.model';
 import { AuthService } from '../../../../services/auth.service';
 import { SpinnerComponent } from '../../../../shared/spinner/spinner.component';
-import { loadingSpinner } from '../../../../store/actions';
-import { selectLoading } from '../../../../store/selectors';
+import { loadingSpinner } from '../../../../store/shared.actions';
+import { selectLoading } from '../../../../store/shared.selectors';
 import { AuthActions } from '../../store/auth.actions';
 
 @Component({

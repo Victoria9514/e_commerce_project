@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../../../models/states.models';
 import { User, UserTableModel } from '../../../models/user.model';
-import { selectAppState } from '../../../store/selectors';
+import { selectAppState } from '../../../store/shared.selectors';
 
 export const selectAllUsers = createSelector(
   selectAppState,

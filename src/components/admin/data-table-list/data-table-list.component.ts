@@ -12,8 +12,8 @@ import { SpinnerComponent } from '../../../shared/spinner/spinner.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { IProduct } from '../../../models/product.model';
 import { UserTableModel } from '../../../models/user.model';
-import { loadingSpinner } from '../../../store/actions';
-import { selectLoading } from '../../../store/selectors';
+import { loadingSpinner } from '../../../store/shared.actions';
+import { selectLoading } from '../../../store/shared.selectors';
 import { ProductsActions } from '../../product/store/product.actions';
 import {
   selectProductPropsForColumnTable,

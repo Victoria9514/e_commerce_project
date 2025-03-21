@@ -1,5 +1,5 @@
 import { TitleCasePipe } from '@angular/common';
-import { Component, Input, ViewChild, inject } from '@angular/core';
+import { Component, Input, ViewChild, inject, viewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,7 +17,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { of } from 'rxjs';
 import { IProduct, Product } from '../../../models/product.model';
 import { IUser, User } from '../../../models/user.model';
-import { loadingSpinner } from '../../../store/actions';
+import { loadingSpinner } from '../../../store/shared.actions';
 import { ProductsActions } from '../../product/store/product.actions';
 import { DataTableTypes } from '../data-table-list/data-table-list.component';
 import { TableDataActions } from '../data-table-list/enums';
@@ -49,8 +49,8 @@ export class DataTableComponent {
   editMode = false;
   TableDataActions = TableDataActions;
 
-  @ViewChild(MatSort, { static: true }) public sort!: MatSort;
-  @ViewChild(MatPaginator, { static: true }) public paginator!: MatPaginator;
+  readonly sort = viewChild.required(MatSort);
+  readonly paginator = viewChild.required(MatPaginator);
   @Input() dataSource?: MatTableDataSource<DataTableTypes> | [];
 
   @Input() displayedColumns$!: string[];

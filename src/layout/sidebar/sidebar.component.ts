@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TreeComponent } from "../tree/tree.component";
+import { TreeComponent } from "../../common/tree/tree.component";
 
 @Component({
     selector: 'app-sidebar',
@@ -7,7 +7,4 @@ import { TreeComponent } from "../tree/tree.component";
     templateUrl: './sidebar.component.html',
     styleUrl: './sidebar.component.scss'
 })
-export class SidebarComponent {
-
-
-}
+export class SidebarComponent {}

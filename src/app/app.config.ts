@@ -11,6 +11,7 @@ import {
   withFetch,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -29,13 +30,14 @@ import { storeEffects$ } from '../store';
 import {
   initialdFeatureKey,
   reducers,
-} from '../store/reducers';
+} from '../store/shared.reducers';
 import { routes } from './app.routes';
 
 // Define metaReducers array
 // const metaReducers: Array<MetaReducer<any, any>> = [appStorageSyncReducer];
 export const appConfig: ApplicationConfig = {
   providers: [
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimations(),

@@ -5,6 +5,5 @@
   <app-product-item
     *cdkVirtualFor="let item of products$ | ngrxPush; trackBy: idTrackFn"
     [product]="item"
-    [itemHeight]="itemHeight"
   ></app-product-item>
 </cdk-virtual-scroll-viewport>

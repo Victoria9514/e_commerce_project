@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../../../models/states.models';
-import { selectAppState } from '../../../store/selectors';
+import { selectAppState } from '../../../store/shared.selectors';
 import { CartState } from './store';
 
 export const selectCartState = createSelector(

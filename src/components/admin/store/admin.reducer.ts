@@ -1,11 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
+import { Orders } from '../../../models/orders.models';
 import { UserTableModel } from '../../../models/user.model';
 import { AdminActions } from './admin.actions';
 
 export interface AdminState {
   isAdmin: boolean;
   users: UserTableModel[];
-  orders: [];
+  orders: Orders[];
 }
 
 export const adminState: AdminState = {

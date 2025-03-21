@@ -12,8 +12,8 @@ import {
 } from 'rxjs/operators';
 import { IProduct } from '../../../models/product.model';
 import { HttpService } from '../../../services/http.service';
-import { LocalStorageService } from '../../../services/localStorage.service';
-import { loadingSpinner, showMessage } from '../../../store/actions';
+import { SharedService } from '../../../services/shared.service';
+import { loadingSpinner, showMessage } from '../../../store/shared.actions';
 import { STATIC_URLS } from '../../../utils';
 import { ProductsActions } from './product.actions';
 import { selectProducts, selectQueryChanged } from './product.selector';
@@ -22,8 +22,7 @@ export const loadProducts$ = createEffect(
   (
     actions$ = inject(Actions),
     http = inject(HttpService),
-    store = inject(Store),
-    localStorage = inject(LocalStorageService)
+    store = inject(Store)
   ) =>
     actions$.pipe(
       ofType(ProductsActions.loadProducts),
@@ -31,7 +30,6 @@ export const loadProducts$ = createEffect(
         http.get<{ products: IProduct[] }>(STATIC_URLS.GETALLPRODUCTS)
       ),
       map((items: { products: IProduct[] }) => {
-        // localStorage.set('products', JSON.stringify(items.products));
         return ProductsActions.loadProductsSuccess({
           products: items.products,
         });
@@ -141,9 +139,7 @@ export const addProduct$ = createEffect(
         console.log(product);
         return http
           .post<IProduct, FormData>(product.product, STATIC_URLS.ADDPRODUCT)
-          .pipe(
-            map(() => ProductsActions.addProductSuccess())
-          );
+          .pipe(map(() => ProductsActions.addProductSuccess()));
       }),
 
       catchError(() => of(showMessage({ message: 'update product error' }))),
@@ -171,27 +167,21 @@ export const searchProduct$ = createEffect(
   { functional: true }
 );
 
-// export const realoadProducts$ = createEffect(
-//   (actions$ = inject(Actions)) => {
-//     return actions$.pipe(
-//       ofType(ProductsActions.updateProductSuccess),
-//       exhaustMap(() => of(ProductsActions.loadProducts()))
-//     );
-//   },
-//   { functional: true, dispatch: false }
-// );
-
-export const addToFavorite$ = createEffect(
+export const toggleFavorite$ = createEffect(
   (
     actions$ = inject(Actions),
     http = inject(HttpService),
-    store = inject(Store)
+    store = inject(Store),
+    snackBar = inject(SharedService)
   ) =>
     actions$.pipe(
       ofType(ProductsActions.toggleFavorite),
       switchMap((item) => {
-        console.log(item);
-        // localStorage.set('cart', JSON.stringify(item.product));
+        snackBar.handleSnackBar({
+          msg: `${
+            !item.isAdded ? `added to wishlist` : `removed from wishlist`
+          }`,
+        });
         return of(showMessage({ message: 'added to wishlist!' }));
       }),
       // switchMap(() => {
@@ -201,10 +191,9 @@ export const addToFavorite$ = createEffect(
       //     })
       //   );
       // }),
-       catchError(() => {
-         return of(showMessage({ message: 'load categories error' }));
-       }),
+      catchError(() => {
+        return of(showMessage({ message: 'load wishlist error' }));
+      })
     ),
   { functional: true, useEffectsErrorHandler: false }
 );
-

@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AppState, SharedState } from '../models/states.models';
-import { initialdFeatureKey } from './reducers';
+import { initialdFeatureKey } from './shared.reducers';
 
 export const selectAppState =
   createFeatureSelector<AppState>(initialdFeatureKey);
@@ -20,16 +20,14 @@ export const selectLoading = createSelector(
   (state: SharedState) => state?.loading
 );
 
-
 export const selectCategories = createSelector(
   selectSharedState,
-  (state: SharedState) => state?.categories?.categories
+  (state: SharedState) => state.categories
 );
-
 
 export const selectSubCategories = createSelector(
   selectSharedState,
-  (state: SharedState) => state?.sub_categories?.sub_categories
+  (state: SharedState) => state.categories.map((item) => item.children)
 );
 
 export const selectCateregoryChangedOpt = createSelector(
@@ -37,23 +35,25 @@ export const selectCateregoryChangedOpt = createSelector(
   (state) => state.categoryOptions
 );
 
+// export const selectCurrentSubCategory = createSelector(
+//   selectCateregoryChangedOpt,
+//   selectSubCategories,
+//   // (categoryId, children) => children.filter((id) => id?.filter(item => item.categoryId === categoryId))
+// );
 
-export const selectCurrentSubCategory = createSelector(
-  selectCateregoryChangedOpt,
-  selectSubCategories,
-  (categoryId, sub_categories) =>  sub_categories.filter(item =>  item.id === +categoryId)
-)
+// export const selectSideBarNavigation = createSelector(
+//   selectSharedState,
+//   (state) => state?.nodes || []
+// );
+// export const selectCurrentTypeOfSize = createSelector(
+//   selectCateregoryChangedOpt,
+//   selectCategories,
+//   (currentCategoryId, categories) => categories.filter(item => item.id === c)
+//   )
+// )
 
-  // export const selectCurrentTypeOfSize = createSelector(
-  //   selectCateregoryChangedOpt,
-  //   selectCategories,
-  //   (currentCategoryId, categories) => categories.filter(item => item.id === c)
-  //   )
-  // )
+// const sizes  = {
+//      0 : {
 
-
-  // const sizes  = {
-  //      0 : {
-
-  //     }
-  // }  as const;
+//     }
+// }  as const;

@@ -5,8 +5,8 @@ import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { InputFieldComponent } from "../../../common/input-field/input-field.component";
 import { SpinnerComponent } from '../../../shared/spinner/spinner.component';
-import { loadingSpinner } from '../../../store/actions';
-import { selectLoading } from '../../../store/selectors';
+import { loadingSpinner } from '../../../store/shared.actions';
+import { selectLoading } from '../../../store/shared.selectors';
 import { AuthActions } from '../store/auth.actions';
 @Component({
     selector: 'app-login',
