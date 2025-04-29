@@ -7,13 +7,13 @@ import { Store } from '@ngrx/store';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, map, of } from 'rxjs';
-import { SpinnerComponent } from '../../../shared/spinner/spinner.component';
 
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { IProduct } from '../../../models/product.model';
-import { UserTableModel } from '../../../models/user.model';
-import { loadingSpinner } from '../../../store/shared.actions';
-import { selectLoading } from '../../../store/shared.selectors';
+import { SpinnerComponent } from '@shared/spinner/spinner.component';
+
+import { IProduct } from '@models/product.model';
+import { UserTableModel } from '@models/user.model';
+import { selectLoading } from '../../../shared/spinner/store/shared.selectors';
 import { ProductsActions } from '../../product/store/product.actions';
 import {
   selectProductPropsForColumnTable,
@@ -37,8 +37,8 @@ export type DataTableTypes = IProduct | UserTableModel;
         MatSelectModule,
         MatFormFieldModule,
         FormsModule,
-        SpinnerComponent,
         RouterModule,
+        SpinnerComponent
     ],
     templateUrl: './data-table-list.component.html',
     styleUrl: './data-table-list.component.scss'
@@ -60,7 +60,6 @@ export class DataTableListComponent implements OnInit {
       if (url.path === 'users') this.usersUrl = true;
     });
 
-    this.store.dispatch(loadingSpinner({ status: true }));
 
     if (this.usersUrl) {
       this.store.dispatch(AdminActions.loadUsers());

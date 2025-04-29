@@ -1,6 +1,5 @@
 @if(loading$ | ngrxPush) {
-<app-spinner></app-spinner>
-}@else {
+  <app-spinner loading [strokeWidth]="3" [diameter]="18"></app-spinner>}@else {
 <form [formGroup]="registerForm">
   <mat-form-field class="example-full-width">
     <mat-label>Username</mat-label>
@@ -28,11 +27,12 @@
     />
   </mat-form-field>
 </form>
-<app-button
+ <app-button
   [label]="'register'"
-  [icon]="'arrow_forward'"
-  [isDisabled]="registerForm.invalid || registerForm.pending"
+  [disabled]="registerForm.invalid || registerForm.pending"
   (clicked)="onSubmit()"
   (keyup.enter)="onSubmit()"
-></app-button>
+>
+<mat-icon icon>arrow_forward</mat-icon>
+</app-button>
 }

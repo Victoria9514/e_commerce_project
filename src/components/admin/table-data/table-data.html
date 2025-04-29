@@ -4,7 +4,7 @@
 </mat-form-field>
 
 @if(dataSource) {
-<table mat-table [dataSource]="(dataSource | ngrxPush) || []" matSort>
+<table mat-table [dataSource]="(dataSource | ngrxPush) || []" matSort fixedLayout>
   @for(prop of (alldisplayedColumns$ | ngrxPush); track prop) {
   <ng-container [matColumnDef]="prop">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -31,25 +31,26 @@
         ></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-      }@if(prop === TableDataActions.EDIT){ @if(!editMode) {
+      }
+      @if(prop === TableDataActions.EDIT){ @if(!editMode) {
       <app-button
         [label]="'edit'"
-        [icon]="'edit'"
         (clicked)="editItem()"
-      ></app-button>
+      >
+    <mat-icon icon>edit</mat-icon></app-button>
       } @else {
       <app-button
         [label]="'done'"
-        [icon]="'done'"
-        (click)="update(element)"
-      ></app-button>
+        (click)="update(element)">
+      <mat-icon icon>done</mat-icon></app-button>
 
       } }@if(prop === TableDataActions.DELETE) {
       <app-button
         [label]="'delete'"
-        [icon]="'delete'"
         (clicked)="deleteItem(element)"
-      ></app-button>
+      >
+
+      <mat-icon icon>delete</mat-icon></app-button>
       }
     </td>
   </ng-container>

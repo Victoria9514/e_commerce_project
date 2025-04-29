@@ -1,19 +1,24 @@
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { IProduct } from '@models/product.model';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { HttpService } from '@services/http.service';
+import { SharedService } from '@services/shared.service';
 import { EMPTY, of } from 'rxjs';
 import {
   catchError,
-  finalize,
   map,
   mergeMap,
   switchMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { IProduct } from '../../../models/product.model';
-import { HttpService } from '../../../services/http.service';
-import { SharedService } from '../../../services/shared.service';
-import { loadingSpinner, showMessage } from '../../../store/shared.actions';
+import {
+  loadingSpinner,
+  openSnackBar,
+  showMessage,
+} from '../../../shared/spinner/store/shared.actions';
 import { STATIC_URLS } from '../../../utils';
 import { ProductsActions } from './product.actions';
 import { selectProducts, selectQueryChanged } from './product.selector';
@@ -26,6 +31,7 @@ export const loadProducts$ = createEffect(
   ) =>
     actions$.pipe(
       ofType(ProductsActions.loadProducts),
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
       switchMap(() =>
         http.get<{ products: IProduct[] }>(STATIC_URLS.GETALLPRODUCTS)
       ),
@@ -34,10 +40,8 @@ export const loadProducts$ = createEffect(
           products: items.products,
         });
       }),
-      catchError(() => {
-        return EMPTY;
-      }),
-      finalize(() => store.dispatch(loadingSpinner({ status: false })))
+      catchError(() => EMPTY),
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
     ),
   { functional: true }
 );
@@ -46,6 +50,7 @@ export const loadProduct$ = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) =>
     actions$.pipe(
       ofType(ProductsActions.getCurrentProduct),
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
       withLatestFrom(store.select(selectProducts)),
       map((data) => {
         const currentProduct = data[1].find(
@@ -61,9 +66,8 @@ export const loadProduct$ = createEffect(
         }
       }),
       catchError(() => EMPTY),
-      finalize(() => store.dispatch(loadingSpinner({ status: false })))
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
     ),
-
   { functional: true }
 );
 
@@ -75,6 +79,7 @@ export const deleteProduct$ = createEffect(
   ) =>
     actions$.pipe(
       ofType(ProductsActions.deleteProduct),
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
       mergeMap((product) => {
         console.log(product);
         return http
@@ -89,7 +94,7 @@ export const deleteProduct$ = createEffect(
           );
       }),
       catchError(() => of(showMessage({ message: 'delete product error' }))),
-      finalize(() => store.dispatch(loadingSpinner({ status: false })))
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
     ),
 
   { functional: true }
@@ -104,6 +109,7 @@ export const updateProduct$ = createEffect(
   ) =>
     actions$.pipe(
       ofType(ProductsActions.updateProduct),
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
       mergeMap((product) =>
         http
           .put<IProduct, IProduct>(
@@ -121,9 +127,8 @@ export const updateProduct$ = createEffect(
       catchError(() => {
         return of(showMessage({ message: 'update product error' }));
       }),
-      finalize(() => store.dispatch(loadingSpinner({ status: false })))
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
     ),
-
   { functional: true }
 );
 
@@ -135,37 +140,46 @@ export const addProduct$ = createEffect(
   ) =>
     actions$.pipe(
       ofType(ProductsActions.addProduct),
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
       switchMap((product) => {
-        console.log(product);
         return http
           .post<IProduct, FormData>(product.product, STATIC_URLS.ADDPRODUCT)
-          .pipe(map(() => ProductsActions.addProductSuccess()));
+          .pipe(
+            tap(() =>
+              store.dispatch(
+                openSnackBar({
+                  payload: `
+                   'product added successfully`,
+                })
+              )
+            ),
+            map(() => ProductsActions.addProductSuccess())
+          );
       }),
-
       catchError(() => of(showMessage({ message: 'update product error' }))),
-      finalize(() => store.dispatch(loadingSpinner({ status: false })))
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
     ),
 
   { functional: true }
 );
 
-export const searchProduct$ = createEffect(
-  (actions$ = inject(Actions), store = inject(Store)) =>
-    actions$.pipe(
-      ofType(ProductsActions.queryChanged),
-      withLatestFrom(
-        store.select(selectQueryChanged),
-        store.select(selectProducts)
-      ),
-      switchMap(([_, query, products]) => {
-        return of(ProductsActions.queryChangedSuccess({ products }));
-      }),
-      catchError(() => EMPTY),
-      finalize(() => store.dispatch(loadingSpinner({ status: false })))
-    ),
+// export const searchProduct$ = createEffect(
+//   (actions$ = inject(Actions), store = inject(Store)) =>
+//     actions$.pipe(
+//       ofType(ProductsActions.queryChanged),
+//       withLatestFrom(
+//         store.select(selectQueryChanged),
+//         store.select(selectProducts)
+//       ),
+//       switchMap(([_, query, products]) => {
+//         return of(ProductsActions.queryChangedSuccess({ products }));
+//       }),
+//       catchError(() => EMPTY),
+//       tap(() => store.dispatch(loadingSpinner({ status: false })))
+//     ),
 
-  { functional: true }
-);
+//   { functional: true }
+// );
 
 export const toggleFavorite$ = createEffect(
   (
@@ -176,24 +190,69 @@ export const toggleFavorite$ = createEffect(
   ) =>
     actions$.pipe(
       ofType(ProductsActions.toggleFavorite),
+
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
       switchMap((item) => {
-        snackBar.handleSnackBar({
-          msg: `${
-            !item.isAdded ? `added to wishlist` : `removed from wishlist`
-          }`,
-        });
-        return of(showMessage({ message: 'added to wishlist!' }));
+        store.dispatch(
+          openSnackBar({
+            payload: `${
+              item.inWishlist ? 'removed from wishlish' : 'added to wishlist'
+            }`,
+          })
+        );
+        return of(showMessage({ message: '' }));
       }),
-      // switchMap(() => {
-      //   return http.get<ICategoryRes>(STATIC_URLS.GETALLCATEGORIES).pipe(
-      //     map((categories) => {
-      //       return CategoryActions.getCategoriesSuccess({ categories });
-      //     })
-      //   );
-      // }),
       catchError(() => {
-        return of(showMessage({ message: 'load wishlist error' }));
+        return of(
+          openSnackBar({
+            payload: {
+              message: 'error occured when try to add/remove item in wishlist',
+              type: 'Error',
+            },
+          })
+        );
       })
     ),
   { functional: true, useEffectsErrorHandler: false }
+);
+
+export const filterProducts$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    http = inject(HttpService),
+    store = inject(Store)
+  ) =>
+    actions$.pipe(
+      ofType(ProductsActions.filterProduct),
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
+      switchMap((products) => {
+        console.log(products);
+        return of(ProductsActions.filterProductSuccess());
+      }),
+
+      catchError(() => of(showMessage({ message: 'update product error' }))),
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
+    ),
+  { functional: true }
+);
+
+export const handleProductQueryChange$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    store = inject(Store),
+    router = inject(Router)
+  ) =>
+    actions$.pipe(
+      ofType(ProductsActions.handleProductQueryChange),
+      withLatestFrom(store.select(selectQueryChanged)),
+      tap((data) => {
+        store.dispatch(loadingSpinner({ status: true }));
+        // router.navigate([`main/${data[1]}`]);
+      }),
+      catchError(() =>
+        of(showMessage({ message: 'unable to load that product' }))
+      ),
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
+    ),
+  { functional: true, dispatch: false }
 );

@@ -1,4 +1,6 @@
  .product-item {
+  // width: 85%;
+  // height: 40%;
 //   margin: 1rem;
 //   padding: 1rem;
 //   flex: 1 1 15%;
@@ -11,5 +13,17 @@
 //     -webkit-line-clamp: 3;
 //     -webkit-box-orient: vertical;
 //   }
+&-link-container {
+max-width: 80%;
+  // justify-content: space-around;
+  // background-color: aquamarine;
+  // &--image {
+  //   position: relative;
+  //   width: 20%;
+  //    aspect-ratio: 1/1;
 
- }
+  //   margin: 30px
+  // }
+
+  }
+}

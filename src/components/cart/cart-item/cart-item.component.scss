@@ -1,0 +1,12 @@
+.cart-item-container{
+  background-color: antiquewhite;
+  display: flex;
+
+  &-details{
+    margin-block-end: 1rem;
+  }
+  &-actions {
+    margin-left: auto;
+  }
+
+}

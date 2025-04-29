@@ -2,42 +2,36 @@
   <mat-toolbar-row class="toolbar">
     @let user_id = (user$ | ngrxPush)?.user_id; @let avatarUrl= (user$ |
     ngrxPush)?.avatar;
-    <app-button [icon]="'menu'" (clicked)="toggleMenu.emit()" mat-mini-fab>
+    <app-button (clicked)="toggleMenu.emit()" mat-mini-fab>
+      <mat-icon icon>menu</mat-icon>
     </app-button>
     @for( link of navLinks() ;track link) {
-
     <a
       class="toolbar--links"
       [routerLink]="link.route"
       routerLinkActive
       #rla="routerLinkActive"
       [class.active]="rla.isActive"
+      (click)="filterProduct('gender',link.name)"
     >
       {{ link.name }}
     </a>
 
     } @let username = (user$ | ngrxPush)?.username; @if( username ) {
-    <app-button
-      [label]="'Log out'"
-      [icon]="'logout'"
-      (clicked)="logout()"
-    ></app-button>
+    <app-button [label]="'Log out'" (clicked)="logout()"></app-button>
     <a [routerLink]="['/profile', username]">
       {{ username }}
     </a>
     } @else {
     <app-button
-      [label]="'Log in'"
-      [icon]="'login'"
+      class="toolbar--singInBtn"
+      [label]="'Sign in'"
       [routerLink]="['/login']"
-    ></app-button>
+    >
+    </app-button>
     } @if( !username ) {
 
-    <app-button
-      [label]="'Register'"
-      [icon]="'app_registration'"
-      [routerLink]="['/register']"
-    ></app-button>
+    <app-button [label]="'Sign up'" [routerLink]="['/register']"></app-button>
     } @if(user_id && avatarUrl) {
     <img
       avatar
@@ -53,52 +47,48 @@
     ></upload-file>
     } @else {
     <img avatar [size]="'40'" />
-    }
-    <mat-icon
-      [matBadge]="(selectWishlistItems$ | ngrxPush)?.length"
-      [routerLink]="['/wishlist']"
-    >
-      favorite_outline
-    </mat-icon>
-    <mat-icon
-      [matBadge]="(selectCart$ | ngrxPush)?.length"
-      size="'small'"
-      [routerLink]="['/cart']"
-      >add_shopping_cart</mat-icon
-    >
-    <button mat-button (click)="toggleMode()">
-      <mat-icon [fontIcon]="isDarkTheme ? 'dark_mode' : 'light_mode'">
+    } @let selectWishlistItems = (selectWishlistItems$ | ngrxPush)?.length;
+    <app-button>
+      <mat-icon
+        icon
+        [matBadge]="selectWishlistItems"
+        [routerLink]="['/wishlist']"
+        [attr.aria-hidden]="selectWishlistItems"
+        aria-hidden="false"
+      >
+        favorite_outline
+      </mat-icon>
+    </app-button>
+    <app-button>
+      <mat-icon
+        icon
+        [matBadge]="(selectCart$ | ngrxPush)?.length"
+        size="'small'"
+        [attr.aria-hidden]="selectWishlistItems"
+        aria-hidden="false"
+        [routerLink]="['/cart']"
+        >add_shopping_cart</mat-icon
+      >
+    </app-button>
+    <app-button (clicked)="toggleMode()">
+      <mat-icon icon [fontIcon]="isDarkTheme ? 'dark_mode' : 'light_mode'">
         dark_mode</mat-icon
       >
-    </button>
+    </app-button>
   </mat-toolbar-row>
   <mat-toolbar-row>
     <!-- @if(isAdmin$ | ngrxPush) { -->
     <mat-icon [routerLink]="['/admin/create-product']"> add_2 </mat-icon>
 
-    <app-button
-      [label]="'Admin panel'"
-      [icon]="'admin_panel_settings'"
-      [routerLink]="['/admin/users']"
-    ></app-button>
+    <app-button [label]="'Admin panel'" [routerLink]="['/admin/users']">
+      <mat-icon icon> dashboard </mat-icon></app-button
+    >
     <!-- } -->
-    @if(!isAdmin$ | ngrxPush) {
-    <mat-form-field>
-      <mat-label>Search Product</mat-label>
-      <input
-        type="text"
-        matInput
-        [formControl]="searchQuery"
-        [matAutocomplete]="auto"
-      />
-      <mat-autocomplete #auto="matAutocomplete">
-        @for (option of (filteredOptions$ | ngrxPush) ; track option) {
-        <mat-option [value]="option"> {{ option }}</mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
-    <mat-icon>search</mat-icon>
+    <!-- @if(!isAdmin$ | ngrxPush) { -->
 
-    }
+    <!-- } -->
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+      <app-search></app-search>
   </mat-toolbar-row>
 </mat-toolbar>

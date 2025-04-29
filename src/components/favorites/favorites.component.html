@@ -1,9 +1,10 @@
 @if((selectWishlistItems$ | ngrxPush)?.length) { @for(item of
 (selectWishlistItems$ | ngrxPush ); track item.product_id) {
 {{ item.title }}
-<button mat-button><mat-icon>delete</mat-icon> Remove</button>
-<button>Remove</button>
+<app-button [label]="'Delete'" (clicked)="deleteItem(item.product_id)"
+  ><mat-icon icon>delete</mat-icon>
+</app-button>
 
 } } @else {
-  <h1>No selected items in your wishlist</h1>
+<h1>No selected items in your wishlist</h1>
 }

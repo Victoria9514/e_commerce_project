@@ -1,5 +1,5 @@
+import { IUser, User } from '@models/user.model';
 import { createReducer, on } from '@ngrx/store';
-import { IUser, User } from '../../../models/user.model';
 import {
   updateAvatar,
   updateAvatarSuccess,

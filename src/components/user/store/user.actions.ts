@@ -1,5 +1,5 @@
+import { IUser } from '@models/user.model';
 import { createAction, props } from '@ngrx/store';
-import { IUser } from '../../../models/user.model';
 
 export const updateAvatar = createAction(
   '[UPDATE AVATAR] UPDATE',

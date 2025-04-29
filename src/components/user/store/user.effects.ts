@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
+import { IUser } from '@models/user.model';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, finalize, map, mergeMap, of } from 'rxjs';
-import { IUser } from '../../../models/user.model';
-import { HttpService } from '../../../services/http.service';
-import { loadingSpinner, showMessage } from '../../../store/shared.actions';
+import { HttpService } from '@services/http.service';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { loadingSpinner, showMessage } from '../../../shared/spinner/store/shared.actions';
 import { STATIC_URLS } from '../../../utils';
 import { updateAvatar, updateAvatarSuccess } from './user.actions';
 
@@ -16,6 +16,7 @@ export const updateAvatar$ = createEffect(
   ) =>
     actions$.pipe(
       ofType(updateAvatar),
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
       mergeMap((payload) => {
         console.log(payload, 'PAYLOAD');
         return http
@@ -35,7 +36,7 @@ export const updateAvatar$ = createEffect(
       catchError(() => {
         return of(showMessage({ message: 'avatar update error' }));
       }),
-      finalize(() => store.dispatch(loadingSpinner({ status: false })))
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
     ),
   { functional: true }
 );

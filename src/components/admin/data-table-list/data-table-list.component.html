@@ -15,5 +15,5 @@
   [displayedColumns$]="(displayedColumns$ | ngrxPush) ?? []"
 ></app-data-table>
 } @if(loading$ | ngrxPush){
-<app-spinner></app-spinner>
+  <app-spinner loading [strokeWidth]="3" [diameter]="18"></app-spinner>
 }

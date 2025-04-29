@@ -4,6 +4,6 @@ export default [
   {
     path: 'cart',
     loadComponent: () =>
-      import('./cart.component').then((mod) => mod.CartComponent),
+      import('./cart-list.component').then((mod) => mod.CartListComponent),
   },
 ] satisfies Route[];

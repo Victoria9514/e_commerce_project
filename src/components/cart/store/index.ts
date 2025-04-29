@@ -1,2 +1,2 @@
-export * as cartEffects$ from './effects';
+export * as cartEffects$ from './cart.effects';
 

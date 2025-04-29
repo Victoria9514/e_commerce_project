@@ -19,12 +19,15 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
-    "lib": [
-      "ES2022",
-      "dom",
-      "dom.iterable"
-    ],
-    "typeRoots": ["./node_modules/@types" , "./src/models"]
+    "lib": ["ES2022", "dom", "dom.iterable"],
+    "baseUrl":"./",
+    "paths": {
+      "@models/*": [ "src/models/*" ],
+      "@services/*": [ "src/services/*" ],
+      "@environments/*": [ "src/environments/*" ],
+      "@shared/*": [ "src/shared/*" ]
+    },
+    "typeRoots": ["./node_modules/@types", "./src/models"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

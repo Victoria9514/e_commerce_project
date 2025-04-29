@@ -1,13 +1,9 @@
 <app-topbar (toggleMenu)="sidenav.toggle()"></app-topbar>
 <mat-sidenav-container>
-  <mat-sidenav #sidenav [mode]="isMobile() ? 'over' : 'side'"
-  [fixedInViewport]="isMobile()" fixedTopGap="100" >
+  <mat-sidenav #sidenav [mode]="'side'">
     <app-sidebar></app-sidebar>
   </mat-sidenav>
-
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
+  <router-outlet></router-outlet>
+  <app-footer></app-footer>
 </mat-sidenav-container>
 
-<app-footer></app-footer>

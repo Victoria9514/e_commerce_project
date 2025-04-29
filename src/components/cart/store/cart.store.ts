@@ -1,7 +1,6 @@
-import { IProduct } from '../../../models/product.model';
 
 export interface CartState {
-  cart: IProduct[];
+  cart: string[];
 }
 
 export const cartState : CartState = {

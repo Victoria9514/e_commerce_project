@@ -1,11 +1,17 @@
 import { inject } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ICategory, Size } from '@models/states.models';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, finalize, map, of, switchMap } from 'rxjs';
-import { ICategory } from '../models/states.models';
-import { HttpService } from '../services/http.service';
-import { STATIC_URLS } from '../utils';
-import { loadingSpinner, sharedActions, showMessage } from './shared.actions';
+import { HttpService } from '@services/http.service';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { STATIC_URLS } from '../../../utils';
+import {
+  loadingSpinner,
+  openSnackBar,
+  sharedActions,
+  showMessage,
+} from './shared.actions';
 
 export const getCategories$ = createEffect(
   (
@@ -15,6 +21,8 @@ export const getCategories$ = createEffect(
   ) =>
     actions$.pipe(
       ofType(sharedActions.getCategories),
+
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
       switchMap(() => {
         return http
           .get<{ message: string; categories: ICategory[] }>(
@@ -31,9 +39,71 @@ export const getCategories$ = createEffect(
       catchError(() => {
         return of(showMessage({ message: 'load categories error' }));
       }),
-      finalize(() => store.dispatch(loadingSpinner({ status: false })))
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
     ),
   { functional: true, useEffectsErrorHandler: false }
+);
+
+export const getSizes$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    http = inject(HttpService),
+    store = inject(Store)
+  ) =>
+    actions$.pipe(
+      ofType(sharedActions.getSizes),
+
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
+      switchMap(() => {
+        return http
+          .get<{ message: string; sizes: Array<Size> }>(STATIC_URLS.GETALLSIZES)
+          .pipe(
+            map((data) => sharedActions.getSizesSuccess({ sizes: data.sizes }))
+          );
+      }),
+      catchError(() => {
+        return of(showMessage({ message: 'load sizes error' }));
+      }),
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
+    ),
+  { functional: true, useEffectsErrorHandler: false }
+);
+
+export const openSnackBar$ = createEffect(
+  (actions$ = inject(Actions), snackBar = inject(MatSnackBar)) =>
+    actions$.pipe(
+      ofType(openSnackBar),
+      map((action) => {
+        if (typeof action.payload === 'string') {
+          snackBar.open(action.payload);
+        } else {
+          if (action.payload.type === 'ERROR') {
+            snackBar.open(action.payload.message, '', {
+              duration: action.payload.duration
+                ? action.payload.duration
+                : 2000,
+              panelClass: 'rtl-warn-snack-bar',
+            });
+          } else if (action.payload.type === 'WARN') {
+            snackBar.open(action.payload.message, '', {
+              duration: action.payload.duration
+                ? action.payload.duration
+                : 2000,
+              panelClass: 'rtl-accent-snack-bar',
+            });
+          } else {
+            snackBar.open(action.payload.message, '', {
+              duration: action.payload.duration
+                ? action.payload.duration
+                : 2000,
+              panelClass: 'rtl-snack-bar',
+            });
+          }
+        }
+      })
+    ),
+
+  { functional: true, useEffectsErrorHandler: false, dispatch: false }
 );
 
 // export const getSubCategories$ = createEffect(
@@ -60,7 +130,7 @@ export const getCategories$ = createEffect(
 //       catchError(() => {
 //         return of(showMessage({ message: 'load sub_categories error' }));
 //       }),
-//       finalize(() => store.dispatch(loadingSpinner({ status: false })))
+//       tap(() => store.dispatch(loadingSpinner({ status: false })))
 //     ),
 
 //   { functional: true, useEffectsErrorHandler: false }
@@ -74,6 +144,8 @@ export const addCategory$ = createEffect(
   ) =>
     actions$.pipe(
       ofType(sharedActions.addCategory),
+
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
       switchMap(({ newCategory }) => {
         console.log(newCategory);
         return http
@@ -88,7 +160,7 @@ export const addCategory$ = createEffect(
       catchError(() => {
         return of(showMessage({ message: 'add a cateory error' }));
       }),
-      finalize(() => store.dispatch(loadingSpinner({ status: false })))
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
     ),
   { functional: true, useEffectsErrorHandler: false }
 );
@@ -101,6 +173,8 @@ export const addSubCategory$ = createEffect(
   ) =>
     actions$.pipe(
       ofType(sharedActions.addSubCategory),
+
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
       switchMap(({ newSubCategory }) => {
         return http
           .post<ICategory, ICategory>(
@@ -117,7 +191,7 @@ export const addSubCategory$ = createEffect(
       catchError(() => {
         return of(showMessage({ message: 'add a cateory error' }));
       }),
-      finalize(() => store.dispatch(loadingSpinner({ status: false })))
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
     ),
   { functional: true, useEffectsErrorHandler: false }
 );

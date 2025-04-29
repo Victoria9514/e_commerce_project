@@ -1,32 +1,31 @@
 import { FormControl } from '@angular/forms';
+import { ICategory, Size } from './states.models';
 
 export interface IProduct {
   product_id: string;
   type: string;
   title: string;
   description: string;
-  size: string[];
+  sizes: Size[];
   category_id: number;
-  sub_category: ProductClothesItem | ProductShoesItem;
   isActive: boolean;
-  color: ProductColor;
+  color: string;
   cart?: string[];
   quantity: number;
   gender: ProductGender;
   price: number;
   images_path?: string;
   favorite: boolean;
+  category: ICategory
 }
 
 export class Product implements IProduct {
   product_id: string;
   title: string;
   description: string;
-  size: string[];
   category_id: number;
-  sub_category: ProductClothesItem | ProductShoesItem;
   isActive: boolean;
-  color: ProductColor;
+  color: string;
   price: number;
   gender: ProductGender;
   images_path?: string | '';
@@ -36,70 +35,73 @@ export class Product implements IProduct {
   cart?: string[] | undefined;
   favorite: boolean;
   type: string;
+  category: ICategory;
+  sizes: Size[];
 
   constructor(product: IProduct) {
     this.product_id = product.product_id;
     this.title = product.title;
     this.description = product.description;
-    this.size = product.size;
+    this.sizes = product.sizes;
     this.category_id = product.category_id;
-    this.sub_category = product.sub_category;
     this.isActive = product.isActive;
     this.color = product.color;
     this.price = product.price;
     this.gender = product.gender;
     this.favorite = product.favorite
     this.type = product.type
+    this.category = product.category
   }
 }
-export const ProductCategory = {
-  BAGS: 1,
-  SHOES: 2,
-  CLOTHES: 3,
-  ACCESSOARS: 4,
-};
+// export const ProductCategory = {
+//   BAGS: 1,
+//   SHOES: 2,
+//   CLOTHES: 3,
+//   ACCESSOARS: 4,
+// };
 
-export enum ProductClothesItem {
-  JACKET = 'JACKET',
-  COAT = 'COAT',
-  DRESS = 'DRESS',
-  SWEATER = 'SWEATER',
-  TSHIRT = 'T-SHIRT',
-  SKIRT = 'SKIRT',
-  JEANS = 'JEANS',
-}
-export enum ProductShoesItem {
-  SNEAKERS = 'SNEAKERS',
-  RUNNINGSHOES = 'RUNNING SHOES',
-  BOOT = 'BOOT',
-  APRESQUES = 'APRESQUES',
-  SANDALS = 'SANDALS',
-}
+// export enum ProductClothesItem {
+//   JACKET = 'JACKET',
+//   COAT = 'COAT',
+//   DRESS = 'DRESS',
+//   SWEATER = 'SWEATER',
+//   TSHIRT = 'T-SHIRT',
+//   SKIRT = 'SKIRT',
+//   JEANS = 'JEANS',
+// }
+
+// export enum ProductShoesItem {
+//   SNEAKERS = 'SNEAKERS',
+//   RUNNINGSHOES = 'RUNNING SHOES',
+//   BOOT = 'BOOT',
+//   APRESQUES = 'APRESQUES',
+//   SANDALS = 'SANDALS',
+// }
 
 export type ProductForm = {
   product_id: FormControl<string | null>;
   title: FormControl<string | null>;
   desc: FormControl<string | null>;
   // quantity: FormControl<number | null>;
-  // size: FormControl<(ProductClothesSize | ProductShoesSize)[] | null>;
+  sizes: FormControl<[] | null>;
   category: FormControl<number | null>;
   sub_category: FormControl<(any | any)[] | null>;
-  color: FormControl<ProductColor | null>;
+  color: FormControl<string | null>;
   gender: FormControl<ProductGender | null>;
   price: FormControl<number | null>;
 };
 
-export enum ProductColor {
-  RED = 'RED',
-  GRAY = 'GRAY',
-  YELLOW = 'YELLOW',
-  BLUE = 'BLUE',
-  PURPLE = 'PURPLE',
-  BLACK = 'BLACK',
-  WHITE = 'WHITE',
-  BROWN = 'BROWN',
-  PINK = 'PINK',
-}
+// export enum ProductColor {
+//   RED = 'RED',
+//   GRAY = 'GRAY',
+//   YELLOW = 'YELLOW',
+//   BLUE = 'BLUE',
+//   PURPLE = 'PURPLE',
+//   BLACK = 'BLACK',
+//   WHITE = 'WHITE',
+//   BROWN = 'BROWN',
+//   PINK = 'PINK',
+// }
 
 export enum ProductShoesSize {
   A = '36',

@@ -1,10 +1,9 @@
-<button
-  mat-button
-  (click)="toggleBtns.toggleCategory = !toggleBtns.toggleCategory"
+<app-button
+  [label]="'add category'"
+  (clickeded)="toggleBtns.toggleCategory = !toggleBtns.toggleCategory"
 >
-  add category
-  <mat-icon>add</mat-icon>
-</button>
+  <mat-icon icon>add</mat-icon>
+</app-button>
 
 @if(toggleBtns.toggleCategory) {
 <ng-container>
@@ -35,7 +34,10 @@
 
   <mat-form-field>
     <mat-label>Select a category</mat-label>
-    <mat-select formControlName="category" (selectionChange)="valueChanged($event)">
+    <mat-select
+      formControlName="category"
+      (selectionChange)="valueChanged($event)"
+    >
       @for (category of selectCategories$ | ngrxPush ; track category; ) {
 
       <mat-option [value]="category.id">{{
@@ -44,36 +46,33 @@
       }
     </mat-select>
   </mat-form-field>
-  <!-- <mat-form-field>
+  <mat-form-field>
     <mat-label>Select a sub category</mat-label>
     <mat-select formControlName="sub_category">
-      @for (child of selectSubCategories$ | ngrxPush; track
-      child;) {
+      @for (child of selectSubCategories$ | ngrxPush; track child;) {
 
-      <mat-option [value]="child.type">{{
-        child.type | titlecase
-      }}</mat-option>
+      <mat-option [value]="child.type">{{ child.type | titlecase }}</mat-option>
       }
     </mat-select>
-  </mat-form-field> -->
+  </mat-form-field>
 
-  <mat-form-field>
+  <!-- <mat-form-field>
     <mat-label>Select a color</mat-label>
     <mat-select formControlName="color">
       @for (color of productColors; track color) {
       <mat-option [value]="color">{{ color }}</mat-option>
       }
     </mat-select>
-  </mat-form-field>
+  </mat-form-field> -->
 
-  <!-- <mat-form-field>
+  <mat-form-field>
     <mat-label>size</mat-label>
-    <mat-select formControlName="size" multiple>
-      @for (size of selectedSize(); track size) {
+    <mat-select formControlName="sizes" multiple>
+      @for (size of selectSizes$ | ngrxPush; track size) {
       <mat-option [value]="size">{{ size }}</mat-option>
       }
     </mat-select>
-  </mat-form-field> -->
+  </mat-form-field>
   <mat-form-field>
     <mat-label>Select a gender</mat-label>
     <mat-select formControlName="gender">
@@ -88,8 +87,16 @@
     [showIcon]="false"
   ></upload-file>
 
-  <button type="submit" [disabled]="productForm.invalid">Save</button>
-  <button (click)="productForm.reset()">Cancel</button>
+  {{ !!loading$ | ngrxPush }}
+
+  <app-button [label]="'Save'">
+    @if(loading$ | ngrxPush) {
+    <ng-container >
+      <app-spinner loading [strokeWidth]="3" [diameter]="18"></app-spinner>
+    </ng-container>
+    }
+  </app-button>
+  <app-button (clicked)="productForm.reset()" [label]="'cancel'"></app-button>
 </form>
 
 <ng-template #categories
@@ -107,19 +114,20 @@
       ></textarea>
     </mat-form-field>
   </form>
-  <button type="submit" mat-button (click)="addCategory(categoryForm.value)">
-    save
-  </button>
-  <button type="submit" mat-button (click)="categoryForm.reset()">
-    cancel
-  </button>
-  <button
-    mat-button
-    (click)="toggleBtns.toggleSubCategory = !toggleBtns.toggleSubCategory"
+  <app-button
+    [label]="'save'"
+    type="submit"
+    (clicked)="addCategory(categoryForm.value)"
   >
-    add sub-category
-    <mat-icon>add</mat-icon>
-  </button></ng-template
+  </app-button>
+  <app-button type="submit" (clicked)="categoryForm.reset()" [label]="'cancel'">
+  </app-button>
+  <app-button
+    [label]="'add sub-category'"
+    (clicked)="toggleBtns.toggleSubCategory = !toggleBtns.toggleSubCategory"
+  >
+    <mat-icon icon>add</mat-icon>
+  </app-button></ng-template
 >
 
 <ng-template #subCategory>
@@ -148,10 +156,10 @@
       </mat-select>
     </mat-form-field>
   </form>
-  <button type="submit" mat-button (click)="addSubCategory(subCategoryForm.value)">
-    save
-  </button>
-  <button type="submit" mat-button (click)="categoryForm.reset()">
-    cancel
-  </button>
+  <app-button
+    (clicked)="addSubCategory(subCategoryForm.value)"
+    [label]="'save'"
+  >
+  </app-button>
+  <app-button (clicked)="categoryForm.reset()" [label]="'cancel'"> </app-button>
 </ng-template>

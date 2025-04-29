@@ -1,6 +1,7 @@
+
+import { Orders } from '@models/orders.models';
+import { UserTableModel } from '@models/user.model';
 import { createReducer, on } from '@ngrx/store';
-import { Orders } from '../../../models/orders.models';
-import { UserTableModel } from '../../../models/user.model';
 import { AdminActions } from './admin.actions';
 
 export interface AdminState {
@@ -39,5 +40,6 @@ export const adminReducer = createReducer(
         ),
       ],
     };
-  })
+  }),
+
 );

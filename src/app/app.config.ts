@@ -1,24 +1,23 @@
 import {
-  ApplicationConfig,
-  importProvidersFrom,
-  isDevMode,
-  provideZoneChangeDetection,
+    ApplicationConfig,
+    importProvidersFrom,
+    isDevMode,
+    provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import {
-  provideHttpClient,
-  withFetch,
-  withInterceptorsFromDi,
+    provideHttpClient,
+    withFetch,
+    withInterceptorsFromDi,
 } from '@angular/common/http';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
-import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
 import { provideEffects } from '@ngrx/effects';
 import {
-  provideState,
-  provideStore
+    provideState,
+    provideStore
 } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { adminEffects$ } from '../components/admin/store/admin.index';
@@ -26,11 +25,11 @@ import { authEffects$ } from '../components/auth/store/auth.index';
 import { cartEffects$ } from '../components/cart/store';
 import { productEffects$ } from '../components/product/store';
 import { userEffects$ } from '../components/user/store';
-import { storeEffects$ } from '../store';
+import { storeEffects$ } from '../shared/spinner/store';
 import {
-  initialdFeatureKey,
-  reducers,
-} from '../store/shared.reducers';
+    initialdFeatureKey,
+    reducers,
+} from '../shared/spinner/store/shared.reducers';
 import { routes } from './app.routes';
 
 // Define metaReducers array
@@ -41,7 +40,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimations(),
-    provideClientHydration(),
     provideHttpClient(withFetch()),
     importProvidersFrom(
       JwtModule.forRoot({

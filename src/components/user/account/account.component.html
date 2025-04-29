@@ -1,0 +1,12 @@
+<div class="container">
+  <app-login (tryToLogin)="logIn($event)"></app-login>
+  <div class="container-registerOrGuest">
+    <p>
+      <app-button [label]="'Sign Up'" [routerLink]="'/register'"></app-button>
+    </p>
+    <app-button
+      [label]="'Continue as a Guest'"
+      [routerLink]="'/checkout'"
+    ></app-button>
+  </div>
+</div>

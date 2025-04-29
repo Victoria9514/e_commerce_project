@@ -3,26 +3,38 @@
     <mat-card-title>{{ product().title }}</mat-card-title>
   </mat-card-header>
   @let first = product().images_path?.split(",")?.slice(0,1);
-  <a [routerLink]="['/main', product().product_id]">
-    <img
-      [width]="225"
-      [height]="300"
-      priority
-      [ngSrc]="'http://localhost:3300/' + first"
-      alt="product"
-    />
-  </a>
+  <div class="product-item-link-container">
+    <a [routerLink]="['/main', product().product_id]" class="product-item-link">
+      <img
+        class="product-item-link--image"
+        width="200"
+        height="400"
+        priority
+        [ngSrc]="'http://localhost:3300/' + first"
+        alt="product"
+      />
+    </a>
+  </div>
   <mat-card-content>
     <span class="product-item--desc">
       {{ product().description }}
     </span>
+    <p class="product-item--desc">
+      price: {{ product().price | currency : "BG" }}
+    </p>
+    <p>
+      gender: {{ product().gender }}
+    </p>
   </mat-card-content>
 
   <mat-card-actions>
-    <button mat-button (click)="likeChanged(product().product_id, product().favorite)">
+    <app-button
+      (clicked)="toggleFavorite(product().product_id, product().favorite)"
+    >
       <mat-icon
+        icon
         [fontIcon]="product().favorite ? 'favorite' : 'favorite_outline'"
       ></mat-icon>
-    </button>
+    </app-button>
   </mat-card-actions>
 </mat-card>

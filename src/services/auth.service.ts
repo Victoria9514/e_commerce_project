@@ -2,11 +2,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { IUser } from '@models/user.model';
 import { Store } from '@ngrx/store';
+import { LocalStorageService } from '@services/localStorage.service';
 import { Observable } from 'rxjs';
 import { AuthActions } from '../components/auth/store/auth.actions';
-import { IUser } from '../models/user.model';
-import { LocalStorageService } from './localStorage.service';
 
 @Injectable({
   providedIn: 'root',

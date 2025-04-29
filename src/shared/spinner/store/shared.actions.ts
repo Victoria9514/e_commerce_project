@@ -1,14 +1,21 @@
+import { ICategory } from '@models/states.models';
 import {
   createAction,
   createActionGroup,
   emptyProps,
   props,
 } from '@ngrx/store';
-import { ICategory } from '../models/states.models';
 
 export const loadingSpinner = createAction(
   '[SHOW LOADING SPINNER] Loading',
   props<{ status: boolean }>()
+);
+
+export const openSnackBar = createAction(
+  '[OPEN SNACKBAR] Open snackbar',
+  props<{
+    payload: string | { message: string; duration?: number; type?: string };
+  }>()
 );
 
 export const showMessage = createAction(
@@ -25,7 +32,11 @@ export const sharedActions = createActionGroup({
     }>(),
     getSubCategories: emptyProps(),
     getSubCategoriesSuccess: props<{
-      children:   ICategory[];
+      children: ICategory[];
+    }>(),
+    getSizes: emptyProps(),
+    getSizesSuccess: props<{
+      sizes: Array<{ name: string; id: number }>;
     }>(),
     addCategory: props<{
       newCategory: ICategory;
@@ -35,7 +46,7 @@ export const sharedActions = createActionGroup({
       newSubCategory: ICategory;
     }>(),
     addSubCategorySuccess: emptyProps(),
-    valueChaged: props<{
+    valueChanged: props<{
       value: number;
     }>(),
     categoryChagedSuccess: emptyProps(),

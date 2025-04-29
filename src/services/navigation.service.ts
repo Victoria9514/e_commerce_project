@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductGender } from '../models/product.model';
+import { ProductGender } from '@models/product.model';
 export interface NavLinks {
   route: string;
   name: string;

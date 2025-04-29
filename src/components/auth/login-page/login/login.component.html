@@ -1,0 +1,50 @@
+<!-- @if(loading$ | ngrxPush) {
+<app-spinner></app-spinner>
+}@else {
+<app-input-field
+  [(value)]="username"
+  placeholder="Enter a username"
+  label="username"
+  [disabled]="loading$ | ngrxPush"
+  (submitted)="loginBtn.click()"
+>
+</app-input-field>
+<app-input-field
+  [(value)]="password"
+  placeholder="Enter a password"
+  label="password"
+  [disabled]="loading$ | ngrxPush"
+  (submitted)="loginBtn.click()"
+>
+</app-input-field>
+<button  #loginBtn (click)="login()"  [disabled]="loading$ | ngrxPush">login</button>
+} -->
+
+@if(loading$ | ngrxPush) {
+  <app-spinner loading [strokeWidth]="3" [diameter]="18"></app-spinner>
+}
+
+<div class="container-login">
+  <form novalidate [formGroup]="loginForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="Usermame" formControlName="username" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput placeholder="Password"  formControlName="password" />
+    </mat-form-field>
+    <app-button
+      [disabled]="loading$ | ngrxPush"
+      (clicked)="tryToLogin.emit(loginForm.value)"
+      [label]="'Sign In'"
+    ></app-button>
+  </form>
+
+  <a href="">I don't remember my passoword</a>
+  <mat-divider></mat-divider>
+  <p>
+    <!-- Continue with: <mat-icon>facebook</mat-icon><mat-icon>google</mat-icon> -->
+  </p>
+</div>

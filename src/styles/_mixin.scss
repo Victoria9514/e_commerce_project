@@ -1,0 +1,53 @@
+@use '@angular/material' as mat;
+@use './theme-colors' as theme-colors;
+
+@mixin apply-light-theme {
+  @include mat.theme((color: (primary: theme-colors.$primary-palette,
+        tertiary: theme-colors.$tertiary-palette,
+        theme-type: light),
+      typography: Poppins,
+      density: 0,
+    ));
+}
+
+@mixin apply-dark-theme {
+  @include mat.theme((color: (primary: theme-colors.$primary-palette,
+        tertiary: theme-colors.$tertiary-palette,
+        theme-type: dark),
+    ));
+}
+
+@mixin center-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+@mixin mobilePhoneXS {
+
+  // mobile phones
+  @media (max-width: 480px) {}
+}
+
+@mixin tablets {
+
+  // ipads and tablets
+  @media (max-width: 768px) {}
+}
+
+@mixin desktopS {
+
+  //small laptops/screens
+  @media (min-width: 769px) {}
+}
+
+@mixin desktopL {
+
+  //large screens
+  @media (min-width: 1025px) {}
+}
+
+@mixin desktopXL {
+  @media (min-width: 1201px) {}
+}

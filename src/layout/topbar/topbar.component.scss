@@ -13,4 +13,7 @@ $config: mat-typography-config();
       text-decoration: underline;
     }
   }
+  &--singInBtn{
+    margin-inline-start: auto
+  }
 }

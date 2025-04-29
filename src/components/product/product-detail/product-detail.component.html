@@ -1,4 +1,4 @@
-@let product = product$ | ngrxPush;
+@let product = product$ | ngrxPush; @if(product) {
 <div class="product-detail">
   <div class="product-detail-images">
     @let arrayOfImages = product?.images_path?.split(","); @for(image of
@@ -18,17 +18,24 @@
   <div class="product-detail-info">
     <p>{{ product?.title }}</p>
     <p>{{ product?.description }}</p>
-    <p>{{ product?.price }}</p>
+    <p>price: {{ product?.price | currency : "ЛВ" }}</p>
     <p>{{ product?.color }}</p>
-    @if(product) {
 
+    <p>Category desc: {{ product?.category?.desc }}</p>
+    @if(product) {
     <app-button
-      mat-button
-      [label]="'add to cart'"
-      (clicked)="add(product)"
-      [icon]="'shopping_cart'"
+      (clicked)="toggleFavorite(product.product_id, product.favorite)"
     >
+      <mat-icon
+        icon
+        [fontIcon]="product?.favorite ? 'favorite' : 'favorite_outline'"
+      ></mat-icon>
+    </app-button>
+    <app-button [label]="'add to cart'" (clicked)="add(product.product_id)">
+      <mat-icon icon> shopping_cart </mat-icon>
     </app-button>
     }
   </div>
 </div>
+}
+<app-rating [rating]="3.4"></app-rating>

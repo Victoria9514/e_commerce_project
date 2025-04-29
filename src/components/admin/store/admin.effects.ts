@@ -1,11 +1,11 @@
 import { inject } from '@angular/core';
+import { IUser, UserTableModel } from '@models/user.model';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, finalize, map, mergeMap, of } from 'rxjs';
-import { IUser, UserTableModel } from '../../../models/user.model';
-import { HttpService } from '../../../services/http.service';
-import { LocalStorageService } from '../../../services/localStorage.service';
-import { loadingSpinner, showMessage } from '../../../store/shared.actions';
+import { HttpService } from '@services/http.service';
+import { LocalStorageService } from '@services/localStorage.service';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { loadingSpinner, showMessage } from '../../../shared/spinner/store/shared.actions';
 import { STATIC_URLS } from '../../../utils';
 import { AdminActions } from './admin.actions';
 
@@ -18,6 +18,7 @@ export const loadUsers$ = createEffect(
   ) =>
     actions$.pipe(
       ofType(AdminActions.loadUsers),
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
       mergeMap(() =>
         http.get<{ users: UserTableModel[]; message: string }>(
           STATIC_URLS.GETALLUSERSADMIN
@@ -30,7 +31,7 @@ export const loadUsers$ = createEffect(
       catchError(() => {
         return of(showMessage({ message: 'Unable to load users' }));
       }),
-      finalize(() => store.dispatch(loadingSpinner({ status: false })))
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
     ),
   { functional: true }
 );
@@ -43,6 +44,7 @@ export const deleteUser$ = createEffect(
   ) =>
     actions$.pipe(
       ofType(AdminActions.deleteUser),
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
       mergeMap((user) =>
         http
           .delete(STATIC_URLS.DELETEORUPDATEUSER, user.user_id)
@@ -55,7 +57,7 @@ export const deleteUser$ = createEffect(
       catchError(() => {
         return of(showMessage({ message: 'Unable to delete users' }));
       }),
-      finalize(() => store.dispatch(loadingSpinner({ status: false })))
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
     ),
   { functional: true }
 );
@@ -68,6 +70,7 @@ export const updateUser$ = createEffect(
   ) =>
     actions$.pipe(
       ofType(AdminActions.updateUser),
+      tap(() => store.dispatch(loadingSpinner({ status: true }))),
       // TODO: FIX THIS => GET USER ID ONLY!!!
       mergeMap((user) =>
         http
@@ -79,7 +82,7 @@ export const updateUser$ = createEffect(
           )
       ),
       catchError(() =>  of(showMessage({ message: 'Unable to update users' }))),
-      finalize(() => store.dispatch(loadingSpinner({ status: false })))
+      tap(() => store.dispatch(loadingSpinner({ status: false })))
     ),
   { functional: true }
 );

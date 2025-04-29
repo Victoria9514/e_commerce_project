@@ -1,7 +1,8 @@
+import { IProduct, Product } from '@models/product.model';
+import { AppState } from '@models/states.models';
 import { createSelector } from '@ngrx/store';
-import { IProduct, Product } from '../../../models/product.model';
-import { AppState } from '../../../models/states.models';
-import { selectAppState } from '../../../store/shared.selectors';
+import { Utils } from 'src/utils';
+import { selectAppState } from '../../../shared/spinner/store/shared.selectors';
 import { ProductState } from './product.reducer';
 
 export const selectProductState = createSelector(
@@ -13,6 +14,7 @@ export const selectProducts = createSelector(
   selectProductState,
   (state: ProductState) => state?.products || []
 );
+
 export const selectProductsLength = createSelector(
   selectProducts,
   (state: IProduct[]) => state?.length || 0
@@ -52,21 +54,27 @@ export const selectQueryChanged = createSelector(
   (state: ProductState) => state?.searchQuery
 );
 
-export const selectSearchQueryResults = createSelector(
-  selectProductState,
-  (state: ProductState) =>
-    state?.searchProductResults?.map((item) => item?.title)
-);
+// export const selectSearchQueryResults = createSelector(
+//   selectProductState,
+//   (state: ProductState) =>
+//     state?.searchProductResults?.map((item) => item?.title)
+// );
 
-export const selectSearchQueryResults1 = createSelector(
-  selectProductState,
-  (state: ProductState) =>
-    state?.searchProductResults.map((item) => item?.title)
-);
+// export const selectSearchQueryResults1 = createSelector(
+//   selectProductState,
+//   (state: ProductState) =>
+//     state?.searchProductResults.map((item) => item?.title)
+// );
 
-export const selectAllTitles = createSelector(
+export const selectSearchQueryOptions = createSelector(
   selectProducts,
-  (product: IProduct[]) => product.map((pr) => pr?.title)
+  (product: IProduct[]) => {
+    const data: string[] = [];
+    product.forEach((pr) => {
+      data.push(pr.title.toLowerCase(), pr.category.type.toLowerCase());
+    });
+    return data;
+  }
 );
 
 export const selectWishlist = createSelector(
@@ -77,8 +85,5 @@ export const selectWishlist = createSelector(
 export const selectWishlistItems = createSelector(
   selectProducts,
   selectWishlist,
-  (products: IProduct[], wishlist: string[]) =>
-    products?.filter((pr: IProduct) =>
-      wishlist.find((id) => id === pr.product_id)
-    )
+  (products, wishlist) => Utils.selectFilteredItems(products, wishlist)
 );

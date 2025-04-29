@@ -1,7 +1,7 @@
+import { AppState } from '@models/states.models';
+import { User, UserTableModel } from '@models/user.model';
 import { createSelector } from '@ngrx/store';
-import { AppState } from '../../../models/states.models';
-import { User, UserTableModel } from '../../../models/user.model';
-import { selectAppState } from '../../../store/shared.selectors';
+import { selectAppState } from '../../../shared/spinner/store/shared.selectors';
 
 export const selectAllUsers = createSelector(
   selectAppState,

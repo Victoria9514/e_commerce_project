@@ -1,0 +1,6 @@
+@use 'mixin' as *;
+
+.app-spinner {
+  @include center-item; // TESTING MIXIN
+  height: 50%;
+}

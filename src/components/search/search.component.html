@@ -1,0 +1,20 @@
+<mat-form-field>
+  <mat-label>Search Product</mat-label>
+  <input
+    type="text"
+    matInput
+    [matAutocomplete]="auto"
+    [formControl]="searchQuery"
+    #searchQueryValue
+  />
+  <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+    @for (option of (filteredOptions$ | ngrxPush) ; track $index) {
+    <mat-option [value]="option" (onSelectionChange)="selected($event)">
+      {{ option }}</mat-option
+    >
+    }
+  </mat-autocomplete>
+</mat-form-field>
+<app-button [label]="'search'" (clicked)="selected(searchQueryValue.value)">
+  <mat-icon icon>search</mat-icon>
+</app-button>

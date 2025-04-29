@@ -1,10 +1,11 @@
+import { Orders } from '@models/orders.models';
+import { IUser, User } from '@models/user.model';
 import { createReducer } from '@ngrx/store';
-import { IUser, User } from '../../../models/user.model';
 
 export interface UserState {
   user: IUser;
   // TODO:  make orders type
-  orders: any[];
+  orders: Orders[];
 }
 
 export const userState: UserState = {

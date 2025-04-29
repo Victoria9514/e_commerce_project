@@ -1,5 +1,5 @@
+import { IUser, UserTableModel } from '@models/user.model';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { IUser, UserTableModel } from '../../../models/user.model';
 
 export const AdminActions = createActionGroup({
   source: 'ADMIN Actions',

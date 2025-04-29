@@ -13,36 +13,37 @@ import { ButtonComponent } from '../../../common/button/button.component';
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { IProduct, Product } from '@models/product.model';
+import { IUser, User } from '@models/user.model';
 import { of } from 'rxjs';
-import { IProduct, Product } from '../../../models/product.model';
-import { IUser, User } from '../../../models/user.model';
-import { loadingSpinner } from '../../../store/shared.actions';
 import { ProductsActions } from '../../product/store/product.actions';
 import { DataTableTypes } from '../data-table-list/data-table-list.component';
 import { TableDataActions } from '../data-table-list/enums';
 import { AdminActions } from '../store/admin.actions';
 @Component({
-    selector: 'app-data-table',
-    imports: [
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatPaginatorModule,
-        MatInputModule,
-        MatTableModule,
-        ButtonComponent,
-        MatTabsModule,
-        TitleCasePipe,
-        FormsModule,
-        PushPipe,
-        MatSortModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-    ],
-    providers: [MatDatepickerModule],
-    templateUrl: './table-data.html',
-    styleUrl: './table-data.scss'
+  selector: 'app-data-table',
+  imports: [
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatPaginatorModule,
+    MatInputModule,
+    MatTableModule,
+    ButtonComponent,
+    MatTabsModule,
+    TitleCasePipe,
+    FormsModule,
+    PushPipe,
+    MatSortModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule,
+  ],
+  providers: [MatDatepickerModule],
+  templateUrl: './table-data.html',
+  styleUrl: './table-data.scss',
 })
 export class DataTableComponent {
   store = inject(Store);
@@ -52,7 +53,6 @@ export class DataTableComponent {
   readonly sort = viewChild.required(MatSort);
   readonly paginator = viewChild.required(MatPaginator);
   @Input() dataSource?: MatTableDataSource<DataTableTypes> | [];
-
   @Input() displayedColumns$!: string[];
 
   @ViewChild(MatPaginator) set matPaginator(paginator: MatPaginator) {
@@ -60,7 +60,6 @@ export class DataTableComponent {
       this.dataSource.paginator = paginator;
     }
   }
-
   @ViewChild(MatSort) set matSort(sort: MatSort) {
     this.dataSource ? (this.dataSource.sort = sort) : null;
   }
@@ -82,12 +81,10 @@ export class DataTableComponent {
   }
 
   loadUsers() {
-    this.store.dispatch(loadingSpinner({ status: true }));
     this.store.dispatch(AdminActions.loadUsers());
   }
 
   deleteItem(value: IUser | IProduct): void {
-    this.store.dispatch(loadingSpinner({ status: true }));
     if (value instanceof User) {
       this.store.dispatch(AdminActions.deleteUser({ user_id: value.user_id }));
     }
@@ -104,7 +101,6 @@ export class DataTableComponent {
   }
 
   update(obj: IProduct | IUser) {
-    this.store.dispatch(loadingSpinner({ status: true }));
     if (obj instanceof User) {
       this.store.dispatch(AdminActions.updateUser({ user: obj }));
     }

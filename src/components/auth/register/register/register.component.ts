@@ -7,31 +7,32 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { RegisterForm } from '@models/register_form.model';
+import { User } from '@models/user.model';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { ButtonComponent } from '../../../../common/button/button.component';
-import { RegisterForm } from '../../../../models/register_form.model';
-import { User } from '../../../../models/user.model';
-import { AuthService } from '../../../../services/auth.service';
-import { SpinnerComponent } from '../../../../shared/spinner/spinner.component';
-import { loadingSpinner } from '../../../../store/shared.actions';
-import { selectLoading } from '../../../../store/shared.selectors';
+import { AuthService } from '@services/auth.service';
+import { SpinnerComponent } from '@shared/spinner/spinner.component';
+import { ButtonComponent } from 'src/common/button/button.component';
+import { selectLoading } from '../../../../shared/spinner/store/shared.selectors';
 import { AuthActions } from '../../store/auth.actions';
 
 @Component({
-    selector: 'app-register',
-    imports: [
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        ButtonComponent,
-        PushPipe,
-        SpinnerComponent,
-    ],
-    templateUrl: './register.component.html',
-    styleUrl: './register.component.scss'
+  selector: 'app-register',
+  imports: [
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    PushPipe,
+    SpinnerComponent,
+    ButtonComponent,
+    MatIconModule,
+  ],
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   store = inject(Store);
@@ -50,7 +51,6 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    this.store.dispatch(loadingSpinner({ status: true }));
     const user = new User(this.registerForm.value);
     this.store.dispatch(AuthActions.registerUser({ user }));
   }

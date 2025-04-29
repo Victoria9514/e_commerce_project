@@ -1,0 +1,193 @@
+<h3>User Details</h3>
+
+<mat-stepper #stepper>
+  <mat-step [stepControl]="addressForm">
+    <form [formGroup]="addressForm" (ngSubmit)="onAddressFormSubmitted()">
+      <ng-template matStepLabel>Fill out your details</ng-template>
+      <mat-form-field>
+        <mat-label>email</mat-label>
+        <input
+          removeWhitespaces
+          matInput
+          placeholder="Email"
+          formControlName="email"
+        />
+        @if (addressForm.controls['email'].dirty ||
+        addressForm.controls['email'].hasError('required') ) {
+        <mat-error>Email is required</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <span matTextPrefix>+359</span>
+        <mat-label>phone number</mat-label>
+        <input
+          matInput
+          removeWhitespaces
+          numbersOnly
+          placeholder="Phone number"
+          formControlName="phoneNumber"
+          size="9"
+          maxlength="9"
+        />
+        @if (addressForm.controls['phoneNumber'].errors?.['notValidNumber']) {
+        <mat-error>please, enter a valid phone number </mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>First name</mat-label>
+        <input
+          removeWhitespaces
+          matInput
+          placeholder="First name"
+          formControlName="firstName"
+        />
+        @if (addressForm.controls['firstName'].dirty ||
+        addressForm.controls['firstName'].hasError('required') ) {
+        <mat-error>first name is required</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Last name</mat-label>
+        <input
+          removeWhitespaces
+          matInput
+          placeholder="Last name"
+          formControlName="lastName"
+        />
+        @if (addressForm.controls['lastName'].dirty ||
+        addressForm.controls['lastName'].hasError('required') ) {
+        <mat-error>last name is required</mat-error>
+        }
+      </mat-form-field>
+      <form [formGroup]="address">
+        <mat-form-field>
+          <mat-label>Street/neighborhood</mat-label>
+          <input
+            removeWhitespaces
+            matInput
+            placeholder="street"
+            formControlName="street"
+          />
+          @if (address.controls['street']?.hasError('required') ||
+          address.controls['street'].dirty) {
+          <mat-error>city is required</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>apartment</mat-label>
+          <input
+            removeWhitespaces
+            matInput
+            placeholder="apartment"
+            formControlName="apartment"
+          />
+          @if (address.controls['apartment']?.hasError('required') ||
+          address.controls['apartment'].dirty) {
+          <mat-error>city is required</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Postal code</mat-label>
+          <input
+            matInput
+            removeWhitespaces
+            numbersOnly
+            placeholder="postal code"
+            formControlName="postalCode"
+            size="4"
+            maxlength="4"
+          />
+          @if (
+          address.controls['postalCode'].dirty||
+          address.controls['postalCode']?.hasError('required') || address.controls['postalCode']?.hasError('isValidLength')) {
+          <mat-error>Your length must be 4 numbers</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>City</mat-label>
+          <input
+            matInput
+            removeWhitespaces
+            placeholder="city"
+            formControlName="city"
+          />
+          @if (address.controls['city']?.hasError('required') ||
+          address.controls['city'].dirty) {
+          <mat-error>city is required</mat-error>
+          }
+        </mat-form-field>
+      </form>
+      <div>
+        <button mat-button matStepperNext [disabled]="loading$ | ngrxPush">
+          Next @if(loading$ | ngrxPush) {
+          <app-spinner loading [strokeWidth]="5" [diameter]="18"></app-spinner>
+          }
+        </button>
+      </div>
+    </form>
+
+    <p>Do you want an invoice?</p>
+    <mat-checkbox (change)="updatedValue($event)">Check me!</mat-checkbox>
+    {{ isChecked() }}
+    @if(isChecked()) {
+    <ng-container *ngTemplateOutlet="companyDetailsForm"></ng-container>
+    }
+  </mat-step>
+
+  <mat-step label="Delivery options">
+    <section>
+      <label>Delivery method:</label>
+      <mat-radio-group [(ngModel)]="deliveryOptions">
+        <mat-radio-button [value]="DeliveryMethod.BYCOURIER">{{
+          DeliveryMethod.BYCOURIER
+        }}</mat-radio-button>
+        <mat-radio-button [value]="DeliveryMethod.TOOFFICE">{{
+          DeliveryMethod.TOOFFICE
+        }}</mat-radio-button>
+      </mat-radio-group>
+    </section>
+    <mat-divider></mat-divider>
+
+    <section>
+      <label>Payment by cash:</label>
+      <mat-radio-group>
+        <mat-radio-button [value]="DeliveryPaymentType.PAYMENTVIAPOST">{{
+          PaymentByCash[0]
+        }}</mat-radio-button>
+        <mat-radio-button [value]="DeliveryPaymentType.PAYMENTONDELIVERY">{{
+          PaymentByCash[1]
+        }}</mat-radio-button>
+      </mat-radio-group>
+    </section>
+
+    <mat-divider></mat-divider>
+    <section>
+      <label>Payment method:</label>
+      <mat-radio-group [(ngModel)]="deliveryOptions">
+        <mat-radio-button [value]="DeliveryPaymentMethod.PAYMENTONDELIVERY">{{
+          DeliveryPaymentMethod.PAYMENTONDELIVERY
+        }}</mat-radio-button>
+        <mat-radio-button [value]="DeliveryPaymentMethod.PAYMENTBYCARD">{{
+          DeliveryPaymentMethod.PAYMENTBYCARD
+        }}</mat-radio-button>
+      </mat-radio-group>
+    </section>
+
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+</mat-stepper>
+
+<ng-template #companyDetailsForm>
+  <app-company-details-form> </app-company-details-form>
+</ng-template>
+
+<!-- <iframe title="Econt Office Locator"
+  allow="geolocation;"
+  src="https://staging.officelocator.econt.com?shopUrl=https://example.staging.officelocator.econt.com&city=Sofia&address=ul. rezbarska 5&officeType=office&lang=bg"
+  style="width: 100%; height: 90vh; border-width: 0px;">
+</iframe> -->
+
+<!-- <iframe src="https://offices.econt.com/?lang=&city=&country=source_url=" allow="geolocation 'self' https://offices.econt.com/"></iframe> -->

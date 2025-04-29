@@ -42,7 +42,6 @@ export class UploadFileComponent {
   }
 
   // onSubmit(): boolean {
-  //   // this.store.dispatch(loadingSpinner({ status: true }));
   //   console.log(this.selectedFile);
 
   //   this.onsubmit.subscribe(data => console.log(data))

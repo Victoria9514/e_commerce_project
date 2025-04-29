@@ -1,9 +1,16 @@
+@defer{
 <cdk-virtual-scroll-viewport
-  [itemSize]="100"
-  style="height: 70vh"
+  (scrolledIndexChange)="_viewport()?.checkViewportSize()"
+  itemSize="250"
+  minBufferPx="1000"
+  maxBufferPx="2000"
 >
-  <app-product-item
-    *cdkVirtualFor="let item of products$ | ngrxPush; trackBy: idTrackFn"
-    [product]="item"
-  ></app-product-item>
+  <ng-template cdkVirtualFor let-item [cdkVirtualForOf]="products$ | ngrxPush">
+    <app-product-item [product]="item"></app-product-item>
+  </ng-template>
 </cdk-virtual-scroll-viewport>
+} @loading(minimum 1s) {
+<app-spinner [diameter]="150" [strokeWidth]="10"></app-spinner>
+} @error {
+<p>Failed to load products. Refresh this page /></p>
+}

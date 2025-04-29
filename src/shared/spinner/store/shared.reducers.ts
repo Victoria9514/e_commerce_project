@@ -1,10 +1,10 @@
+import { sharedState } from '@models/states.models';
 import { combineReducers, createReducer, on } from '@ngrx/store';
-import { adminReducer } from '../components/admin/store/admin.reducer';
-import { authReducer } from '../components/auth/store/auth.reducer';
-import { cartReducer } from '../components/cart/store/reducer';
-import { productReducer } from '../components/product/store/product.reducer';
-import { userReducer } from '../components/user/store/user.reducer';
-import { sharedState } from '../models/states.models';
+import { adminReducer } from '../../../components/admin/store/admin.reducer';
+import { authReducer } from '../../../components/auth/store/auth.reducer';
+import { cartReducer } from '../../../components/cart/store/cart.reducer';
+import { productReducer } from '../../../components/product/store/product.reducer';
+import { userReducer } from '../../../components/user/store/user.reducer';
 import { loadingSpinner, sharedActions, showMessage } from './shared.actions';
 
 const sharedReducer = createReducer(
@@ -20,6 +20,12 @@ const sharedReducer = createReducer(
     return {
       ...state,
       categories: action?.categories,
+    };
+  }),
+  on(sharedActions.getSizesSuccess, (state, action) => {
+    return {
+      ...state,
+      sizes: action?.sizes,
     };
   }),
   // on(sharedActions.getSubCategoriesSuccess, (state, action) => {
@@ -61,11 +67,10 @@ const sharedReducer = createReducer(
       },
     };
   }),
-  on(sharedActions.valueChaged, (state, action) => {
+  on(sharedActions.valueChanged, (state, action) => {
     return {
       ...state,
       categoryOptions: action.value,
-      // categoriesSizes: [action.value :  ]
     };
   })
   // on(sharedActions.loadSideBarNavigationSucces, (state, action) => {

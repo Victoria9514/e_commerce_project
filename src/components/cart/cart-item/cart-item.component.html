@@ -1,21 +1,35 @@
-<div class="conainer">
-  <p>{{ item().title }}</p>
-  @let first = item().images_path?.split(",")?.slice(0,1); @if(first) {
+@let item = item$ | ngrxPush; @if(item) {
+
+<div class="cart-item-container">
+  @let first = item?.images_path?.split(",")?.slice(0,1); @if(first) {
   <img
     [ngSrc]="'http://localhost:3300/' + first"
     alt="image"
-    [width]="50"
-    [height]="80"
+    [width]="70"
+    [height]="100"
   />
   }
-  <div class="container-actions">
-    <button mat-button>Edit<mat-icon>edit</mat-icon></button>
-    <button mat-button>
+  <div class="cart-item-container-details">
+    <p>{{ item?.title }}</p>
+    <p>Size: {{ item?.sizes }}</p>
+    <p>Color: {{ item?.color }}</p>
+    <p>Quantity: {{ item?.quantity }}</p>
+  </div>
+  <div class="cart-item-container-actions">
+    <app-button [label]="'Edit'"><mat-icon icon>edit</mat-icon></app-button>
+    <app-button (clicked)="toggleFavorite(item.product_id, item.favorite)">
       <mat-icon
-        [fontIcon]="item().favorite ? 'favorite' : 'favorite_outline'"
+        icon
+        [fontIcon]="item?.favorite ? 'favorite' : 'favorite_outline'"
       ></mat-icon>
-    </button>
-    <button mat-button>Delete <mat-icon>trash</mat-icon></button>
+    </app-button>
+    <app-button
+      [label]="'Delete'"
+      [disabled]="!loading$ | ngrxPush"
+      (clicked)="deleteProductFromCart(item.product_id)"
+      ><mat-icon icon>delete</mat-icon>
+    </app-button>
   </div>
   <mat-divider></mat-divider>
 </div>
+}

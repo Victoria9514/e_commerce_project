@@ -1,18 +1,19 @@
-import { CommonModule, IMAGE_CONFIG, NgOptimizedImage } from '@angular/common';
+import { CommonModule, CurrencyPipe, IMAGE_CONFIG, NgOptimizedImage } from '@angular/common';
 import {
   Component,
   ViewEncapsulation,
   inject,
   input
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { IProduct } from '@models/product.model';
 import { Store } from '@ngrx/store';
-import { Product } from '../../../models/product.model';
+
 
 import { RouterModule } from '@angular/router';
+import { ButtonComponent } from 'src/common/button/button.component';
 import { ProductsActions } from '../store/product.actions';
 // import { selectFavorites } from '../store/product.selector';
 @Component({
@@ -23,8 +24,9 @@ import { ProductsActions } from '../store/product.actions';
         NgOptimizedImage,
         MatCardModule,
         MatIcon,
-        MatButtonModule,
         MatSelectModule,
+        CurrencyPipe,
+        ButtonComponent
     ],
     templateUrl: './product-item.component.html',
     styleUrl: './product-item.component.scss',
@@ -41,9 +43,9 @@ import { ProductsActions } from '../store/product.actions';
 })
 export class ProductItemComponent {
   store = inject(Store);
-  product = input.required<Product>();
+  product = input.required<IProduct>();
 
-  likeChanged(id: string, isAdded: boolean) {
-    this.store.dispatch(ProductsActions.toggleFavorite({ id , isAdded}));
+  toggleFavorite(id: string, inWishlist: boolean) {
+    this.store.dispatch(ProductsActions.toggleFavorite({ id , inWishlist}));
   }
 }

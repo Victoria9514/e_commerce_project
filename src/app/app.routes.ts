@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { PageNotFoundComponent } from '../components/page-not-found/page-not-found.component';
-import { ProfileComponent } from '../components/user/profile/profile.component';
 
 export const routes: Routes = [
   {
@@ -25,12 +24,6 @@ export const routes: Routes = [
       import(
         '../components/product/product-detail/product-detail.component'
       ).then((c) => c.ProductdetailComponent),
-    children: [
-      {
-        path: 'main/:women',
-        component: ProfileComponent,
-      },
-    ],
   },
 
   {

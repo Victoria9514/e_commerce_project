@@ -1,3 +1,3 @@
-import { User } from '../../../models/user.model';
+import { IUser } from '@models/user.model';
 
-export const userState = { user: {} as User, orders: [] };
+export const userState = { user: {} as IUser, orders: [] };

@@ -1,5 +1,5 @@
+import { IProduct } from '@models/product.model';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { IProduct } from '../../../models/product.model';
 
 export const CartActions = createActionGroup({
   source: 'Cart Actions',
@@ -9,8 +9,11 @@ export const CartActions = createActionGroup({
       cart: IProduct[];
     }>(),
     addCartItem: props<{
-      product: IProduct;
+      id: string;
     }>(),
     addCartItemSuccess: emptyProps(),
+    deleteCartItem : props<{ id : string }>(),
+    deleteCartItemSuccess : emptyProps(),
+
   },
 });

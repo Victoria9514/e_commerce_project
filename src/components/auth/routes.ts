@@ -4,7 +4,7 @@ export default [
   {
     path: 'login',
     loadComponent: () =>
-      import('../auth/login/login.component').then((mod) => mod.LoginComponent),
+      import('./login-page/login-page.component').then((mod) => mod.LoginPageComponent),
   },
   {
     path: 'register',

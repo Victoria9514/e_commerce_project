@@ -2,10 +2,6 @@ import { Route } from '@angular/router';
 
 export default [
   {
-    // path: ':username',
-    // component: ProfileComponent,
-    // children: [
-    //   {
         path: 'wishlist',
         loadComponent: () =>
           import('../favorites/favorites.component').then(
@@ -15,10 +11,18 @@ export default [
       {
         path: 'cart',
         loadComponent: () =>
-          import('../cart/cart.component').then(
-            (mod) => mod.CartComponent
+          import('../cart/cart-list.component').then(
+            (mod) => mod.CartListComponent
           ),
       },
-    // ],
-  // },
+      {
+        path: 'checkout/account',
+        loadComponent: () =>
+          import('./account/account.component').then((mod) => mod.AccountComponent),
+      },
+      {
+        path: 'checkout',
+        loadComponent: () =>
+          import('./checkout/checkout.component').then((mod) => mod.CheckoutComponent),
+      },
 ] satisfies Route[];

@@ -1,8 +1,9 @@
 import {
   Component,
   OnInit,
+  TemplateRef,
   inject,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -20,54 +21,59 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import { ProductForm, ProductGender } from '@models/product.model';
+import { ICategory } from '@models/states.models';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
+import { SpinnerComponent } from '@shared/spinner/spinner.component';
+import { ButtonComponent } from 'src/common/button/button.component';
 import { UploadFileComponent } from '../../../common/upload-file/upload-file.component';
-import {
-  ProductColor,
-  ProductForm,
-  ProductGender
-} from '../../../models/product.model';
-import { ICategory } from '../../../models/states.models';
-import { loadingSpinner, sharedActions } from '../../../store/shared.actions';
+import { sharedActions } from '../../../shared/spinner/store/shared.actions';
 import {
   selectCategories,
-} from '../../../store/shared.selectors';
+  selectCurrentSubCategory,
+  selectLoading,
+  selectSizes,
+} from '../../../shared/spinner/store/shared.selectors';
 import { Utils } from '../../../utils';
 import { ProductsActions } from '../store/product.actions';
 
 @Component({
-    selector: 'app-product-add-form',
-    imports: [
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatIconModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatListModule,
-        TitleCasePipe,
-        UploadFileComponent,
-        PushPipe,
-        MatButtonModule,
-        NgTemplateOutlet
-    ],
-    templateUrl: './product-add-form.component.html',
-    styleUrl: './product-add-form.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-product-add-form',
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatListModule,
+    TitleCasePipe,
+    UploadFileComponent,
+    PushPipe,
+    SpinnerComponent,
+    NgTemplateOutlet,
+    ButtonComponent,
+  ],
+  templateUrl: './product-add-form.component.html',
+  styleUrl: './product-add-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductAddFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly store = inject(Store);
-  public readonly productColors = Object.values(ProductColor);
+  loading$ = this.store.select(selectLoading);
+  spinner: TemplateRef<unknown> | undefined;
+  // public readonly productColors = Object.values(ProductColor);
   // public readonly shoesSizes = Object.values(ProductShoesSize);
   // public readonly clothesSizes = Object.values(ProductClothesSize);
   public readonly genders = Object.values(ProductGender);
-  selectCategories$ = this.store.select(selectCategories)
-  // selectSubCategories$ = this.store.select(selectCurrentSubCategory)
+  selectCategories$ = this.store.select(selectCategories);
+  selectSubCategories$ = this.store.select(selectCurrentSubCategory);
+  selectSizes$ = this.store.select(selectSizes);
   toggleBtns = { toggleCategory: false, toggleSubCategory: false };
+
   productForm: FormGroup = new FormGroup({});
   categoryForm: FormGroup = new FormGroup({});
   subCategoryForm: FormGroup = new FormGroup({});
@@ -75,18 +81,17 @@ export class ProductAddFormComponent implements OnInit {
 
   readonly formDir = viewChild.required(FormGroupDirective);
 
-
   ngOnInit() {
     this.productForm = this.fb.group<ProductForm>({
       product_id: new FormControl(Utils.generateUUID()),
       title: new FormControl('', [Validators.required]),
       desc: new FormControl('', [Validators.required]),
       // quantity: new FormControl(1, [Validators.required]),
-      color: new FormControl(null, [Validators.required]),
+      color: new FormControl('', [Validators.required]),
       category: new FormControl(0, [Validators.required]),
       sub_category: new FormControl([Validators.required]),
       gender: new FormControl(null, [Validators.required]),
-      // size: new FormControl(null, [Validators.required]),
+      sizes: new FormControl(null, [Validators.required]),
       price: new FormControl(0, [Validators.required]),
     });
 
@@ -100,10 +105,6 @@ export class ProductAddFormComponent implements OnInit {
       desc: new FormControl(''),
       categoryName: new FormControl(''),
     });
-
-    this.store.dispatch(loadingSpinner({ status: true }));
-    this.store.dispatch(sharedActions.getCategories());
-    // this.store.dispatch(sharedActions.getSubCategories());
   }
 
   submit(files: FileList) {
@@ -117,8 +118,7 @@ export class ProductAddFormComponent implements OnInit {
 
   onSubmit() {
     this.formData.append('data', JSON.stringify(this.productForm.value));
-    console.log(this.productForm.value)
-    this.store.dispatch(loadingSpinner({ status: true }));
+    // console.log(this.productForm.value);
     this.store.dispatch(ProductsActions.addProduct({ product: this.formData }));
     this.formDir().resetForm();
   }
@@ -134,7 +134,6 @@ export class ProductAddFormComponent implements OnInit {
   }
 
   valueChanged(event: MatSelectChange) {
-    console.log(event.value)
-    this.store.dispatch(sharedActions.valueChaged({value: event.value}))
+    this.store.dispatch(sharedActions.valueChanged({ value: event.value }));
   }
 }
