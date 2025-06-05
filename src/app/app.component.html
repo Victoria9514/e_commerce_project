@@ -1,9 +1,13 @@
 <app-topbar (toggleMenu)="sidenav.toggle()"></app-topbar>
 <mat-sidenav-container>
-  <mat-sidenav #sidenav [mode]="'side'">
+  <app-filter-list (toggleFilters)="filterNav.toggle()"></app-filter-list>
+  <mat-sidenav #sidenav [mode]="'side'" position="start">
     <app-sidebar></app-sidebar>
   </mat-sidenav>
+  <mat-sidenav #filterNav class="filter-nav" position="end" (keydown.escape)="close()" disableClose>
+    <app-filter (filterClosed)="filterNav.toggle()">
+    </app-filter>
+  </mat-sidenav>
   <router-outlet></router-outlet>
-  <app-footer></app-footer>
 </mat-sidenav-container>
-
+<app-footer></app-footer>

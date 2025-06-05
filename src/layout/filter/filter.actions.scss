@@ -1,0 +1,13 @@
+.filter-actions {
+  height: 4rem;
+  display: block;
+  &-btn-group {
+    display: flex;
+    margin-block-start: 1rem;
+
+    &--item {
+      width: 50%;
+    }
+  }
+
+}

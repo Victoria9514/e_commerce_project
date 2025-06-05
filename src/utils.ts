@@ -25,4 +25,6 @@ export const STATIC_URLS = {
   DELETEORUPDATEPRODUCT: 'http://localhost:3300/admin/products',
   UPDATEAVATAR: 'http://localhost:3300/avatars',
   DELETEORUPDATEUSER: `http://localhost:3300/admin/users`,
+  REGISTERUSER: `http://localhost:3300/register`,
+  LOGINUSER: `http://localhost:3300/login`,
 };

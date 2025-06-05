@@ -6,11 +6,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { IProduct } from '@models/product.model';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { loadingSpinner } from '@shared/spinner/store/shared.actions';
 import { ButtonComponent } from 'src/common/button/button.component';
-import { ProductsActions } from 'src/components/product/store/product.actions';
-import { selectCurrentProduct } from 'src/components/product/store/product.selector';
-import { CartActions } from '../store/cart.actions';
+import { ProductsActions } from 'src/store/actions/product.actions';
+import { loadingSpinner } from 'src/store/actions/shared.actions';
+import { selectCurrentProduct } from 'src/store/selectors/product.selectors';
+import { CartActions } from '../../../store/actions/cart.actions';
 @Component({
   selector: 'app-cart-item',
   imports: [

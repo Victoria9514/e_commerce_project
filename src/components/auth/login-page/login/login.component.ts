@@ -12,8 +12,8 @@ import { RouterModule } from '@angular/router';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { SpinnerComponent } from '@shared/spinner/spinner.component';
-import { selectLoading } from '@shared/spinner/store/shared.selectors';
 import { ButtonComponent } from 'src/common/button/button.component';
+import { selectLoading } from 'src/store/selectors/shared.selectors';
 
 @Component({
   selector: 'app-login',

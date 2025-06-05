@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { CartListComponent } from 'src/components/cart/cart-list.component';
-import { selectCurrentUser } from '../../auth/store/selectors';
+import { selectCurrentUser } from '../../../store/selectors/auth.selectors';
 import { FavoritesComponent } from "../../favorites/favorites.component";
 
 @Component({

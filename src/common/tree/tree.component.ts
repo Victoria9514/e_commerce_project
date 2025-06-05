@@ -1,16 +1,16 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { CdkTreeModule } from '@angular/cdk/tree';
-import {
-    ChangeDetectionStrategy,
-    Component,
-    inject
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTreeModule } from '@angular/material/tree';
-import { ICategory } from '@models/states.models';
-import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { selectCategories } from '../../shared/spinner/store/shared.selectors';
+import { FilterOptions } from '@models/filter.models';
+import { ICategory } from '@models/product.model';
+import { PushPipe } from '@ngrx/component';
+import { Store } from '@ngrx/store';
+import { NavigationActions } from 'src/store/actions/navigation.actions';
+import { selectCategories } from '../../store/selectors/shared.selectors';
 
 @Component({
   selector: 'app-tree',
@@ -19,17 +19,29 @@ import { selectCategories } from '../../shared/spinner/store/shared.selectors';
     MatIconModule,
     MatButtonModule,
     CdkTreeModule,
+    MatCheckboxModule,
+    PushPipe,
   ],
   templateUrl: './tree.component.html',
   styleUrl: './tree.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TreeComponent {
-  store = inject(Store);
-  dataSource$: Observable<ICategory[]> = this.store.pipe(
-    select(selectCategories)
-  );
+  private _store = inject(Store);
+  FilterOptions = FilterOptions;
 
-  childrenAccessor = (node: ICategory) => node?.children ?? null;
-  hasChild = (_: number, node: ICategory) => !!node.children?.length;
+  protected checkBoxSelection = new SelectionModel<ICategory>(true);
+  protected productCategories$ = this._store.select(selectCategories);
+  protected childrenAccessor = (node: ICategory) => node?.children ?? null;
+  protected hasChild = (_: number, node: ICategory) => !!node.children?.length;
+
+  protected navigateTo(opt: FilterOptions) {
+    const query = this.checkBoxSelection.selected.map((item) => item.type);
+    this._store.dispatch(
+      NavigationActions.navigate({
+        opt,
+        query,
+      })
+    );
+  }
 }

@@ -2,7 +2,7 @@
 $config: mat-typography-config();
 
 .toolbar {
-  &--links {
+  &-user--links {
     text-decoration: none;
     color: red;
     margin-inline-end: .5rem;
@@ -13,7 +13,16 @@ $config: mat-typography-config();
       text-decoration: underline;
     }
   }
-  &--singInBtn{
+
+  &--singInBtn {
     margin-inline-start: auto
+  }
+
+  &-search {
+    app-search {
+      width: 80%;
+      margin: 0 auto;
+      display: block;
+    }
   }
 }

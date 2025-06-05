@@ -1,3 +1,4 @@
+import { TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,9 +11,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-button',
-  imports: [MatButtonModule, MatIconModule],
-  template: `<button  mat-button (click)="clicked.emit()" [disabled]="disabled()">
-    {{ label() }}
+  imports: [MatButtonModule, MatIconModule, TitleCasePipe],
+  template: `<button
+    mat-button
+    (click)="clicked.emit()"
+    [disabled]="disabled()"
+  >
+    {{ label() | titlecase }}
     <ng-content select="[icon]"></ng-content>
     <ng-content select="[loading]"></ng-content>
   </button> `,
@@ -22,10 +27,10 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ButtonComponent {
   disabled = input(false, { transform: booleanAttribute });
-  label = input<string>('');
+  label = input<string>();
   clicked = output();
-  stylerClass = input('');
-  onClick() {
+
+  protected onClick() {
     this.clicked.emit();
   }
 }

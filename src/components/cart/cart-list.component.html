@@ -1,7 +1,7 @@
 <div class="container">
   @if((selectCartItems$ | ngrxPush)?.length) {
   <div class="container-cart-items">
-    @for(item of selectCartItems$ | ngrxPush; track item; let last = $last) {
+    @for(item of selectCartItems$ | ngrxPush; track item) {
     <app-cart-item [item]="item | ngrxPush"></app-cart-item>
     <mat-divider [inset]="true"></mat-divider>
     }

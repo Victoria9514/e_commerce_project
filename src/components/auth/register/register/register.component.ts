@@ -16,8 +16,8 @@ import { Store } from '@ngrx/store';
 import { AuthService } from '@services/auth.service';
 import { SpinnerComponent } from '@shared/spinner/spinner.component';
 import { ButtonComponent } from 'src/common/button/button.component';
-import { selectLoading } from '../../../../shared/spinner/store/shared.selectors';
-import { AuthActions } from '../../store/auth.actions';
+import { AuthActions } from '../../../../store/actions/auth.actions';
+import { selectLoading } from '../../../../store/selectors/shared.selectors';
 
 @Component({
   selector: 'app-register',

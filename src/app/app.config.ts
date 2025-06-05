@@ -1,42 +1,38 @@
 import {
-    ApplicationConfig,
-    importProvidersFrom,
-    isDevMode,
-    provideZoneChangeDetection,
+  ApplicationConfig,
+  importProvidersFrom,
+  isDevMode,
+  provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import {
-    provideHttpClient,
-    withFetch,
-    withInterceptorsFromDi,
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
 import { provideEffects } from '@ngrx/effects';
-import {
-    provideState,
-    provideStore
-} from '@ngrx/store';
+import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { adminEffects$ } from '../components/admin/store/admin.index';
-import { authEffects$ } from '../components/auth/store/auth.index';
-import { cartEffects$ } from '../components/cart/store';
-import { productEffects$ } from '../components/product/store';
-import { userEffects$ } from '../components/user/store';
-import { storeEffects$ } from '../shared/spinner/store';
-import {
-    initialdFeatureKey,
-    reducers,
-} from '../shared/spinner/store/shared.reducers';
+import { filterEffects$ } from 'src/store/effects/index/filter.index';
+import { adminEffects$ } from '../store/effects/index/admin.index';
+import { authEffects$ } from '../store/effects/index/auth.index';
+import { cartEffects$ } from '../store/effects/index/cart.index';
+import { navigationEffects$ } from '../store/effects/index/navigation.index';
+import { productEffects$ } from '../store/effects/index/product.index';
+import { storeEffects$ } from '../store/effects/index/shared.index';
+import { userEffects$ } from '../store/effects/index/user.index';
+import { initialdFeatureKey, reducers } from '../store/reducers/shared.reducers';
 import { routes } from './app.routes';
 
 // Define metaReducers array
 // const metaReducers: Array<MetaReducer<any, any>> = [appStorageSyncReducer];
 export const appConfig: ApplicationConfig = {
   providers: [
-    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimations(),
@@ -67,9 +63,11 @@ export const appConfig: ApplicationConfig = {
       productEffects$,
       adminEffects$,
       authEffects$,
+      filterEffects$,
       userEffects$,
       storeEffects$,
       cartEffects$,
+      navigationEffects$,
     ),
   ],
 };

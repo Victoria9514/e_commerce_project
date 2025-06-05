@@ -10,15 +10,30 @@ body {
   // width: 100%;
   overflow-x: hidden;
   overflow-y: hidden;
+
+  .filter-nav {
+    height: 100%;
+    overflow: scroll;
+    max-height: 80%;
+    width: 70%;
+  }
 }
 
 mat-sidenav-container {
+  min-height: 100%;
   height: 100vh;
+}
+
+
+html,
+body {
+  min-height: 100%;
 }
 
 
 mat-sidenav-content.mat-drawer-content {
   overflow: hidden;
+  height: 100vh;
 }
 
 ::-webkit-scrollbar {

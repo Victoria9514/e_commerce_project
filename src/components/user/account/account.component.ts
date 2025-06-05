@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ButtonComponent } from 'src/common/button/button.component';
-import { AuthActions } from 'src/components/auth/store/auth.actions';
+import { AuthActions } from 'src/store/actions/auth.actions';
 import { LoginComponent } from '../../auth/login-page/login/login.component';
 
 @Component({

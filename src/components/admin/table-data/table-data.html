@@ -14,7 +14,6 @@
     <td mat-cell *matCellDef="let element">
       @if(prop !== TableDataActions.DELETE && prop !== TableDataActions.EDIT &&
       prop !== 'createdAt' ) {
-      <!-- (focus)="onFocus($event)" -->
       <input
         (blur)="editMode = false"
         matInput

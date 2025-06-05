@@ -6,17 +6,18 @@ import { IUser } from '@models/user.model';
 import { Store } from '@ngrx/store';
 import { LocalStorageService } from '@services/localStorage.service';
 import { Observable } from 'rxjs';
-import { AuthActions } from '../components/auth/store/auth.actions';
+import { STATIC_URLS } from 'src/utils';
+import { AuthActions } from '../store/actions/auth.actions';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  http = inject(HttpClient);
-  router = inject(Router);
-  jwtHelper = new JwtHelperService();
-  localStorage = inject(LocalStorageService);
-  store = inject(Store);
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private jwtHelper = new JwtHelperService();
+  private localStorage = inject(LocalStorageService);
+  private store = inject(Store);
 
   // TODO FIX LOCALSTORAGE USER->TOKEN
   get token(): string | null {
@@ -29,7 +30,7 @@ export class AuthService {
   }
 
   register(user: Partial<IUser>): Observable<IUser> {
-    return this.http.post<IUser>('http://localhost:3300/register', user, {
+    return this.http.post<IUser>(STATIC_URLS.REGISTERUSER, user, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'access-control-allow-origin': '*',
@@ -38,24 +39,10 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<IUser> {
-    return this.http.post<IUser>('http://localhost:3300/login', {
+    return this.http.post<IUser>(STATIC_URLS.LOGINUSER, {
       username,
       password,
     });
-    // .pipe(
-    //   catchError((error) => {
-    //     if (error.status === 401) {
-    //       console.log(error);
-    //     }
-    //     return of(error);
-    //     // return of(User);
-    //   }),
-    //   tap((user) => {
-    //     console.log(user);
-    //     this.localStorage.set('user', JSON.stringify(user));
-    //     return user;
-    //   })
-    // );
   }
 
   logout() {

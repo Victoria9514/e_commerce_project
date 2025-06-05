@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AuthActions } from '../store/auth.actions';
+import { AuthActions } from '../../../store/actions/auth.actions';
 import { LoginComponent } from './login/login.component';
 
 @Component({

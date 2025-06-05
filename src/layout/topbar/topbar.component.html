@@ -1,24 +1,25 @@
-<mat-toolbar>
-  <mat-toolbar-row class="toolbar">
+<mat-toolbar class="toolbar">
+  <mat-toolbar-row class="toolbar-user">
     @let user_id = (user$ | ngrxPush)?.user_id; @let avatarUrl= (user$ |
     ngrxPush)?.avatar;
+
     <app-button (clicked)="toggleMenu.emit()" mat-mini-fab>
       <mat-icon icon>menu</mat-icon>
     </app-button>
-    @for( link of navLinks() ;track link) {
+    @for( link of navLinks() ;track link.name) {
     <a
-      class="toolbar--links"
+      class="toolbar-user--links"
       [routerLink]="link.route"
       routerLinkActive
       #rla="routerLinkActive"
       [class.active]="rla.isActive"
-      (click)="filterProduct('gender',link.name)"
+      (click)="navigationChanged(FilterOptions.GENDER, link.name)"
     >
       {{ link.name }}
     </a>
 
     } @let username = (user$ | ngrxPush)?.username; @if( username ) {
-    <app-button [label]="'Log out'" (clicked)="logout()"></app-button>
+    <app-button [label]="'log out'" (clicked)="logout()"></app-button>
     <a [routerLink]="['/profile', username]">
       {{ username }}
     </a>
@@ -31,22 +32,7 @@
     </app-button>
     } @if( !username ) {
 
-    <app-button [label]="'Sign up'" [routerLink]="['/register']"></app-button>
-    } @if(user_id && avatarUrl) {
-    <img
-      avatar
-      [size]="'40'"
-      [url]="
-        sanitizer.bypassSecurityTrustUrl('http://localhost:3300/' + avatarUrl)
-      "
-    />
-    <upload-file
-      (fileSubmitted)="uploadAvatar($event, user_id)"
-      [isMultiple]="false"
-      [showIcon]="true"
-    ></upload-file>
-    } @else {
-    <img avatar [size]="'40'" />
+    <app-button [label]="'sign up'" [routerLink]="['/register']"></app-button>
     } @let selectWishlistItems = (selectWishlistItems$ | ngrxPush)?.length;
     <app-button>
       <mat-icon
@@ -75,8 +61,24 @@
         dark_mode</mat-icon
       >
     </app-button>
+    @if(user_id && avatarUrl) {
+    <img
+      avatar
+      [size]="'40'"
+      [url]="
+        sanitizer.bypassSecurityTrustUrl('http://localhost:3300/' + avatarUrl)
+      "
+    />
+    <upload-file
+      (fileSubmitted)="uploadAvatar($event, user_id)"
+      [isMultiple]="false"
+      [showIcon]="true"
+    ></upload-file>
+    } @else {
+    <img avatar [size]="'40'" />
+    }
   </mat-toolbar-row>
-  <mat-toolbar-row>
+  <mat-toolbar-row class="toolbar-admin">
     <!-- @if(isAdmin$ | ngrxPush) { -->
     <mat-icon [routerLink]="['/admin/create-product']"> add_2 </mat-icon>
 
@@ -88,7 +90,7 @@
 
     <!-- } -->
   </mat-toolbar-row>
-  <mat-toolbar-row>
-      <app-search></app-search>
+  <mat-toolbar-row class="toolbar-search">
+    <app-search></app-search>
   </mat-toolbar-row>
 </mat-toolbar>

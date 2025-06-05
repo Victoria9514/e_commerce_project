@@ -5,10 +5,10 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { ButtonComponent } from '../../../common/button/button.component';
-import { CartActions } from '../../cart/store/cart.actions';
+import { CartActions } from '../../../store/actions/cart.actions';
+import { ProductsActions } from '../../../store/actions/product.actions';
+import { selectCurrentProduct, selectWishlist } from '../../../store/selectors/product.selectors';
 import { RatingComponent } from "../rating/rating.component";
-import { ProductsActions } from '../store/product.actions';
-import { selectCurrentProduct, selectWishlist } from '../store/product.selector';
 @Component({
     selector: 'app-product-detail',
     imports: [
@@ -24,7 +24,7 @@ import { selectCurrentProduct, selectWishlist } from '../store/product.selector'
     styleUrl: './product-detail.component.scss',
     encapsulation: ViewEncapsulation.None
 })
-export class ProductdetailComponent implements OnInit {
+export class ProductDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private store = inject(Store);
   product$ = this.store.select(selectCurrentProduct);
@@ -32,6 +32,7 @@ export class ProductdetailComponent implements OnInit {
 
   ngOnInit(): void {
     const productId = this.route?.snapshot?.paramMap?.get('id');
+    console.log(productId)
     if (productId)
       this.store.dispatch(ProductsActions.getCurrentProduct({ productId }));
   }

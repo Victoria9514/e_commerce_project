@@ -1,0 +1,25 @@
+@let selectCurrentComponent = selectCurrentComponent$ | ngrxPush;
+<header>
+  @let selectCurrentFilterLabel = selectFilterBy$ | ngrxPush;
+  <h4>Filter By:{{ selectCurrentFilterLabel?.type | titlecase }}</h4>
+</header>
+<mat-divider></mat-divider>
+@for(item of selectCurrentComponent; track item.component) {
+<ng-container #currentFilteredComponent
+  *ngComponentOutlet="item.component;"
+></ng-container>
+}
+<mat-divider></mat-divider>
+<app-filter-actions
+  [action]="FilterBtnActions.FILTER"
+  [label]="FilterBtnActions.FILTER"
+  [prop]="currentSelectedComponentType"
+  >
+  <!-- [values]="values()?.values" -->
+</app-filter-actions>
+<app-filter-actions
+  [action]="FilterBtnActions.DELETE"
+  [label]="FilterBtnActions.DELETE"
+  [prop]="currentSelectedComponentType"
+>
+</app-filter-actions>

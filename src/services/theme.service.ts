@@ -36,6 +36,8 @@ export const injectRenderer2 = (): Renderer2 =>
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   private readonly DARK_MODE_CLASS = 'dark-mode';
+  private readonly LIGHT_MODE_CLASS = 'light-mode';
+
 
   private readonly _renderer = injectRenderer2();
   private readonly _document = inject(DOCUMENT);
@@ -62,8 +64,10 @@ export class ThemeService {
   private _applyDarkModeClass(enabled: boolean): void {
     if (enabled) {
       this._renderer.addClass(this._document.documentElement, this.DARK_MODE_CLASS);
+      this._renderer.removeClass(this._document.documentElement, this.LIGHT_MODE_CLASS);
     } else {
       this._renderer.removeClass(this._document.documentElement, this.DARK_MODE_CLASS);
+      this._renderer.addClass(this._document.documentElement, this.LIGHT_MODE_CLASS);
     }
   }
 }

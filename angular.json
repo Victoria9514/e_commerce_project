@@ -30,8 +30,12 @@
               "src/assets/images"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/azure-blue.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              {
+                "input": "src/styles/_theme-colors.scss",
+                "inject": false,
+                "bundleName": "theme-colors"
+              }
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -100,8 +104,12 @@
             ],
 
             "styles": [
-              "@angular/material/prebuilt-themes/azure-blue.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              {
+                "input": "src/styles/_theme-colors.scss",
+                "inject": false,
+                "bundleName": "theme-colors"
+              }
             ],
 
             "scripts": []

@@ -22,22 +22,21 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
-import { ProductForm, ProductGender } from '@models/product.model';
-import { ICategory } from '@models/states.models';
+import { ICategory, ProductForm, ProductGender } from '@models/product.model';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { SpinnerComponent } from '@shared/spinner/spinner.component';
 import { ButtonComponent } from 'src/common/button/button.component';
 import { UploadFileComponent } from '../../../common/upload-file/upload-file.component';
-import { sharedActions } from '../../../shared/spinner/store/shared.actions';
+import { ProductsActions } from '../../../store/actions/product.actions';
+import { sharedActions } from '../../../store/actions/shared.actions';
 import {
   selectCategories,
   selectCurrentSubCategory,
   selectLoading,
   selectSizes,
-} from '../../../shared/spinner/store/shared.selectors';
+} from '../../../store/selectors/shared.selectors';
 import { Utils } from '../../../utils';
-import { ProductsActions } from '../store/product.actions';
 
 @Component({
   selector: 'app-product-add-form',

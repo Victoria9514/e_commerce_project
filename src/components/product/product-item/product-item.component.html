@@ -4,12 +4,12 @@
   </mat-card-header>
   @let first = product().images_path?.split(",")?.slice(0,1);
   <div class="product-item-link-container">
-    <a [routerLink]="['/main', product().product_id]" class="product-item-link">
+    <a [routerLink]="['/p/', product().product_id]" class="product-item-link">
       <img
         class="product-item-link--image"
-        width="200"
-        height="400"
         priority
+        [width]="200"
+        [height]="200"
         [ngSrc]="'http://localhost:3300/' + first"
         alt="product"
       />
@@ -24,6 +24,9 @@
     </p>
     <p>
       gender: {{ product().gender }}
+    </p>
+    <p>
+      category: {{ product().category.type }}
     </p>
   </mat-card-content>
 

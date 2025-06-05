@@ -1,20 +1,30 @@
-<mat-form-field>
-  <mat-label>Search Product</mat-label>
+<mat-form-field class="mat-form-field-search">
   <input
     type="text"
+    placeholder="Search for product title"
     matInput
+    [(ngModel)]="searchTerm"
     [matAutocomplete]="auto"
-    [formControl]="searchQuery"
-    #searchQueryValue
+    (keyup.enter)="selected(searchTerm())"
   />
-  <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
-    @for (option of (filteredOptions$ | ngrxPush) ; track $index) {
-    <mat-option [value]="option" (onSelectionChange)="selected($event)">
-      {{ option }}</mat-option
+  @if (searchTerm()) {
+  <button
+    matSuffix
+    mat-icon-button
+    aria-label="Clear"
+    (click)="searchTerm.set('')"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+  }
+  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+    @for (option of (productOptions$ | filterProduct : searchTerm()) | ngrxPush;
+    track option.product_id ) {
+    <mat-option
+      [value]="option.title"
+      (onSelectionChange)="selected(option.title)"
+      >{{ option.title }}</mat-option
     >
     }
   </mat-autocomplete>
 </mat-form-field>
-<app-button [label]="'search'" (clicked)="selected(searchQueryValue.value)">
-  <mat-icon icon>search</mat-icon>
-</app-button>

@@ -4,11 +4,11 @@ import { PageNotFoundComponent } from '../components/page-not-found/page-not-fou
 export const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('../components/auth/routes'),
+    loadChildren: () => import('../routes/auth.routes'),
   },
   {
-    path: 'main',
-    title: 'Main Page',
+    path: 'home',
+    title: 'Home Page',
     loadComponent: () =>
       import('../components/product/product-list/product-list.component').then(
         (m) => m.ProductListComponent
@@ -16,30 +16,34 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    loadChildren: () => import('../components/admin/admin.routes'),
+    title: 'Admin',
+    loadChildren: () => import('../routes/admin.routes'),
   },
   {
-    path: 'main/:id',
-    loadComponent: () =>
-      import(
-        '../components/product/product-detail/product-detail.component'
-      ).then((c) => c.ProductdetailComponent),
+    path: 'p',
+    loadChildren: () => import('../routes/product.routes'),
+  },
+  {
+    path: 'c',
+    loadChildren: () => import('../routes/navigation.routes'),
   },
 
+
+  // {
+  //   path: 'products/:category',
+  //   loadComponent: () =>
+  //     import('../components/product/product-list/product-list.component').then(
+  //       (m) => m.ProductListComponent
+  //     ),
+  // },
   {
-    path: 'products/:gender',
-    loadComponent: () =>
-      import('../components/product/product-list/product-list.component').then(
-        (m) => m.ProductListComponent
-      ),
+    title: 'Cart',
+    path: '',
+    loadChildren: () => import('../routes/cart.routes'),
   },
   {
     path: '',
-    loadChildren: () => import('../components/cart/routes'),
-  },
-  {
-    path: '',
-    loadChildren: () => import('../components/user/user.routes'),
+    loadChildren: () => import('../routes/user.routes'),
   },
 
   // {

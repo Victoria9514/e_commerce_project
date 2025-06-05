@@ -1,12 +1,23 @@
 import { FormControl } from '@angular/forms';
-import { ICategory, Size } from './states.models';
 
+export interface ICategory {
+  id: number;
+  type: string;
+  desc: string;
+  children: ICategory[];
+  categoryId?: number;
+}
+export interface ISize {
+  id: number;
+  name: string;
+}
 export interface IProduct {
+  [x: string]: any;
   product_id: string;
   type: string;
   title: string;
   description: string;
-  sizes: Size[];
+  sizes: ISize[];
   category_id: number;
   isActive: boolean;
   color: string;
@@ -16,7 +27,12 @@ export interface IProduct {
   price: number;
   images_path?: string;
   favorite: boolean;
-  category: ICategory
+  category: ICategory;
+}
+export enum SearchByProps {
+  'gender' = 'gender',
+  'category' = 'category',
+  'title' = 'title',
 }
 
 export class Product implements IProduct {
@@ -36,7 +52,7 @@ export class Product implements IProduct {
   favorite: boolean;
   type: string;
   category: ICategory;
-  sizes: Size[];
+  sizes: ISize[];
 
   constructor(product: IProduct) {
     this.product_id = product.product_id;
@@ -48,11 +64,12 @@ export class Product implements IProduct {
     this.color = product.color;
     this.price = product.price;
     this.gender = product.gender;
-    this.favorite = product.favorite
-    this.type = product.type
-    this.category = product.category
+    this.favorite = product.favorite;
+    this.type = product.type;
+    this.category = product.category;
   }
 }
+
 // export const ProductCategory = {
 //   BAGS: 1,
 //   SHOES: 2,

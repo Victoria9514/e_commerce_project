@@ -1,14 +1,18 @@
-@defer{
+@defer(on viewport){
 <cdk-virtual-scroll-viewport
-  (scrolledIndexChange)="_viewport()?.checkViewportSize()"
-  itemSize="250"
-  minBufferPx="1000"
-  maxBufferPx="2000"
+  (scrolledIndexChange)="viewport()?.checkViewportSize()"
+  itemSize="19"
 >
-  <ng-template cdkVirtualFor let-item [cdkVirtualForOf]="products$ | ngrxPush">
+  <ng-template
+    cdkVirtualFor
+    let-item
+    [cdkVirtualForOf]="products$ | ngrxPush"
+  >
     <app-product-item [product]="item"></app-product-item>
   </ng-template>
 </cdk-virtual-scroll-viewport>
+} @placeholder {
+<div>Loading products...</div>
 } @loading(minimum 1s) {
 <app-spinner [diameter]="150" [strokeWidth]="10"></app-spinner>
 } @error {

@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   ViewEncapsulation,
   inject,
   input,
@@ -17,26 +16,25 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { IProduct } from '@models/product.model';
+import { FilterOptions } from '@models/filter.models';
+import { NavLinks } from '@models/navigation.models';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { AuthService } from '@services/auth.service';
-import { NavLinks, NavigationService } from '@services/navigation.service';
+import { NavigationService } from '@services/navigation.service';
 import { ThemeService } from '@services/theme.service';
-import { ProductsActions } from 'src/components/product/store/product.actions';
+import { NavigationActions } from 'src/store/actions/navigation.actions';
 import { ButtonComponent } from '../../common/button/button.component';
 import { UploadFileComponent } from '../../common/upload-file/upload-file.component';
+import { SearchComponent } from '../../components/search/search.component';
+import { AvatarDirective } from '../../directives/avatar.directive';
+import { updateAvatar } from '../../store/actions/user.actions';
 import {
   selectAdmin,
   selectCurrentUser,
-} from '../../components/auth/store/selectors';
-import { selectCart } from '../../components/cart/store/cart.selectors';
-import {
-  selectWishlistItems
-} from '../../components/product/store/product.selector';
-import { SearchComponent } from '../../components/search/search.component';
-import { updateAvatar } from '../../components/user/store/user.actions';
-import { AvatarDirective } from '../../directives/avatar.directive';
+} from '../../store/selectors/auth.selectors';
+import { selectCart } from '../../store/selectors/cart.selectors';
+import { selectWishlistItems } from '../../store/selectors/product.selectors';
 
 @Component({
   selector: 'app-topbar',
@@ -61,7 +59,7 @@ import { AvatarDirective } from '../../directives/avatar.directive';
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss',
 })
-export class TopbarComponent implements OnInit {
+export class TopbarComponent {
   store = inject(Store);
   authService = inject(AuthService);
   user$ = this.store.select(selectCurrentUser);
@@ -70,22 +68,21 @@ export class TopbarComponent implements OnInit {
   navLinks = signal<NavLinks[]>(inject(NavigationService)?.navLinks);
   selectCart$ = this.store.select(selectCart);
   selectWishlistItems$ = this.store.select(selectWishlistItems);
-  public sanitizer = inject(DomSanitizer);
+  sanitizer = inject(DomSanitizer);
   theme = inject(ThemeService);
   matBadge = input<string>('');
   isDarkTheme: boolean = this.theme.isDarkMode();
-
-  ngOnInit() {}
+  FilterOptions = FilterOptions;
 
   logout() {
     this.authService.logout();
   }
 
   toggleMode() {
+    // TODO PUT THIS IN THE STORE
     this.isDarkTheme = !this.isDarkTheme;
     this.theme.setDarkMode(this.isDarkTheme);
   }
-
   uploadAvatar(file: FileList, user_id: number) {
     const userData = new FormData();
     userData.append('user_id', JSON.stringify(user_id));
@@ -93,7 +90,10 @@ export class TopbarComponent implements OnInit {
     this.store.dispatch(updateAvatar({ userData }));
   }
 
-  filterProduct(prop: keyof IProduct, value: string) {
-    this.store.dispatch(ProductsActions.filterProduct({ prop, value }));
+  navigationChanged(opt: FilterOptions, query: string) {
+    console.log(query, opt);
+    this.store.dispatch(
+      NavigationActions.navigate({ opt, query: [query.toLowerCase()] })
+    );
   }
 }

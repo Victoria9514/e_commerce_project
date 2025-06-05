@@ -1,5 +1,12 @@
 import { TitleCasePipe } from '@angular/common';
-import { Component, Input, ViewChild, inject, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewChild,
+  inject,
+  viewChild,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -18,10 +25,12 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { IProduct, Product } from '@models/product.model';
 import { IUser, User } from '@models/user.model';
 import { of } from 'rxjs';
-import { ProductsActions } from '../../product/store/product.actions';
-import { DataTableTypes } from '../data-table-list/data-table-list.component';
-import { TableDataActions } from '../data-table-list/enums';
-import { AdminActions } from '../store/admin.actions';
+import {
+  DataTableTypes,
+  TableDataActions,
+} from '../../../models/data-source.models';
+import { AdminActions } from '../../../store/actions/admin.actions';
+import { ProductsActions } from '../../../store/actions/product.actions';
 @Component({
   selector: 'app-data-table',
   imports: [
@@ -42,16 +51,16 @@ import { AdminActions } from '../store/admin.actions';
     MatIconModule,
   ],
   providers: [MatDatepickerModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './table-data.html',
   styleUrl: './table-data.scss',
 })
 export class DataTableComponent {
-  store = inject(Store);
-  editMode = false;
-  TableDataActions = TableDataActions;
-
-  readonly sort = viewChild.required(MatSort);
-  readonly paginator = viewChild.required(MatPaginator);
+  private _store = inject(Store);
+  protected editMode = false;
+  protected TableDataActions = TableDataActions;
+  protected readonly sort = viewChild.required(MatSort);
+  protected readonly paginator = viewChild.required(MatPaginator);
   @Input() dataSource?: MatTableDataSource<DataTableTypes> | [];
   @Input() displayedColumns$!: string[];
 
@@ -74,38 +83,38 @@ export class DataTableComponent {
     );
   }
 
-  applyFilter(event: Event) {
+  protected applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     if (this.dataSource)
       this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  loadUsers() {
-    this.store.dispatch(AdminActions.loadUsers());
+  private _loadUsers() {
+    this._store.dispatch(AdminActions.loadUsers());
   }
 
-  deleteItem(value: IUser | IProduct): void {
+  protected deleteItem(value: IUser | IProduct): void {
     if (value instanceof User) {
-      this.store.dispatch(AdminActions.deleteUser({ user_id: value.user_id }));
+      this._store.dispatch(AdminActions.deleteUser({ user_id: value.user_id }));
     }
     if (value instanceof Product) {
-      this.store.dispatch(
+      this._store.dispatch(
         ProductsActions.deleteProduct({
           product_id: value.product_id,
         })
       );
     }
   }
-  editItem() {
+  protected editItem() {
     this.editMode = true;
   }
 
-  update(obj: IProduct | IUser) {
+  protected update(obj: IProduct | IUser) {
     if (obj instanceof User) {
-      this.store.dispatch(AdminActions.updateUser({ user: obj }));
+      this._store.dispatch(AdminActions.updateUser({ user: obj }));
     }
     if (obj instanceof Product) {
-      this.store.dispatch(ProductsActions.updateProduct({ product: obj }));
+      this._store.dispatch(ProductsActions.updateProduct({ product: obj }));
     }
     this.editMode = false;
   }

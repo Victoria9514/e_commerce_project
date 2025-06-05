@@ -1,0 +1,8 @@
+.filter-item {
+  margin-inline-end: 2rem;
+  &-btn>button {
+    margin-inline-end: 2rem;
+    background: aliceblue;
+    padding-inline: 2rem;
+  }
+}

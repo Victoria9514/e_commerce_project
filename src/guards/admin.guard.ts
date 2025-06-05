@@ -2,9 +2,9 @@ import { inject } from '@angular/core';
 import { CanActivateFn } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
-import { selectCurrentUser } from '../components/auth/store/selectors';
+import { selectCurrentUser } from 'src/store/selectors/auth.selectors';
 
-export const AdminGuard: CanActivateFn = (): Observable<boolean> => {
+const adminGuard: CanActivateFn = (): Observable<boolean> => {
   const store = inject(Store);
   return store.select(selectCurrentUser).pipe(
     map((user) => {

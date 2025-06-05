@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
+import { NavLinks } from '@models/navigation.models';
 import { ProductGender } from '@models/product.model';
-export interface NavLinks {
-  route: string;
-  name: string;
-}
 
 @Injectable({
   providedIn: 'root',
