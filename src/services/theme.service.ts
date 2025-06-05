@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { DestroyRef, Injectable, InjectionToken, Renderer2, RendererFactory2, Signal, computed, effect, inject, linkedSignal, signal } from '@angular/core';
+
+import { DestroyRef, Injectable, InjectionToken, Renderer2, RendererFactory2, Signal, computed, effect, inject, linkedSignal, signal, DOCUMENT } from '@angular/core';
 
 export type ColorMode = 'light' | 'dark';
 

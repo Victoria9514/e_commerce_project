@@ -1,8 +1,4 @@
-import {
-  CommonModule,
-  CurrencyPipe,
-  NgOptimizedImage
-} from '@angular/common';
+import { CommonModule, CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
